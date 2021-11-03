@@ -81,7 +81,7 @@ class NewsViewModel(
         newsRepository.deleteArticle(article)
     }
 
-    private suspend fun safeSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
+    private fun safeSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
         searchNews.postValue(Resource.Loading())
         try {
             if (hasInternetConnection){
@@ -98,7 +98,7 @@ class NewsViewModel(
         }
     }
 
-    private suspend fun safeBreakingNewsCall(countryCode: String, hasInternetConnection: Boolean) {
+    private fun safeBreakingNewsCall(countryCode: String, hasInternetConnection: Boolean) {
         breakingNews.postValue(Resource.Loading())
         try {
             if (hasInternetConnection){

@@ -1,4 +1,4 @@
-package com.example.testapp1.di.module
+package com.example.testapp1.di.app
 
 import android.app.Application
 import android.content.Context

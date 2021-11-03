@@ -4,10 +4,8 @@ import androidx.room.*
 import com.example.testapp1.data.local.model.ArticleEntity
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface ArticleDao {
-
 
     @Query("SELECT * FROM ArticlesEntity")
     fun flow(): Flow<List<ArticleEntity>>

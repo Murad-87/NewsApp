@@ -12,5 +12,5 @@ data class ArticleEntity(
     @Embedded
     val articleLocal: ArticleLocal,
     @Embedded
-    val sourceRemote: SourceRemote?
+    val sourceLocal: SourceLocal?
 )

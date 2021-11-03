@@ -1,4 +1,4 @@
-package com.example.testapp1.di.search_news_fragment
+package com.example.testapp1.di.feature.search_news_fragment
 
 import com.example.testapp1.feature.ui.SearchNewsFragment
 import dagger.Component

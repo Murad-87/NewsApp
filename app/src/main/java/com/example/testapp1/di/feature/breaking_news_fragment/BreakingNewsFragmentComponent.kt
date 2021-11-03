@@ -1,4 +1,4 @@
-package com.example.testapp1.di.breaking_news_fragment
+package com.example.testapp1.di.feature.breaking_news_fragment
 
 import com.example.testapp1.feature.ui.BreakingNewsFragment
 import dagger.Component

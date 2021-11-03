@@ -4,7 +4,7 @@ import com.example.testapp1.data.local.dao.ArticleDao
 import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.di.data.module.LocaleModule
 import com.example.testapp1.di.data.module.RemoteModule
-import com.example.testapp1.di.module.ApplicationContextModule
+import com.example.testapp1.di.app.ApplicationContextModule
 import dagger.Component
 
 @Component(modules = [

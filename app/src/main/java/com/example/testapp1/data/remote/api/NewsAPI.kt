@@ -28,8 +28,7 @@ interface NewsAPI {
         apiKey: String = API_KEY
     ): Response<NewsResponse>
 
-    companion object{
+    companion object {
         const val BASE_URL = "http://newsapi.org"
-
     }
 }
