@@ -2,46 +2,43 @@ package com.example.testapp1.feature.savedNewsFragment.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testapp1.R
 import com.example.testapp1.databinding.FragmentSavedNewsBinding
-import com.example.testapp1.feature.NewsActivity
-import com.example.testapp1.feature.presentetion.NewsViewModel
-import com.example.testapp1.feature.ui.NewsAdapter
+import com.example.testapp1.feature.savedNewsFragment.presentation.SavedNewsViewModel
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_saved_news.*
 import javax.inject.Inject
 
 
-class SavedNewsFragment : BaseFragment<FragmentSavedNewsBinding>(FragmentSavedNewsBinding::inflate) {
+class SavedNewsFragment :
+    BaseFragment<FragmentSavedNewsBinding>(FragmentSavedNewsBinding::inflate) {
 
-    @Inject lateinit var viewModel: NewsViewModel
-    lateinit var newsAdapter: NewsAdapter
+    @Inject
+    lateinit var viewModel: SavedNewsViewModel
+    private val newsAdapter by lazy { SavedNewsAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as NewsActivity).viewModel
         setupRecyclerView()
+        initTouchListener()
 
         newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article", it)
-            }
-            findNavController().navigate(
-                R.id.action_savedNewsFragment_to_articleFragment,
-                bundle
-            )
+            navigate()
         }
 
+        viewModel.getSavedNews().observe(viewLifecycleOwner) {
+            newsAdapter.submitList(it)
+        }
+    }
+
+    private fun initTouchListener() {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ){
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -52,28 +49,29 @@ class SavedNewsFragment : BaseFragment<FragmentSavedNewsBinding>(FragmentSavedNe
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val article = newsAdapter.differ.currentList[position]
-                Snackbar.make(view, "Successfully deleted article", Snackbar.LENGTH_LONG).apply {
-                    setAction("Undo"){
-                        viewModel.saveArticle(article)
+                val article = newsAdapter.currentList[position]
+                viewModel.deleteArticle(article)
+                Snackbar.make(requireView(), "Successfully deleted article", Snackbar.LENGTH_LONG)
+                    .apply {
+                        setAction("Undo") {
+                            //viewModel.saveArticle(article)
+                            //TODO: find UNDO action
+                        }
+                        show()
                     }
-                    show()
-                }
             }
-
         }
 
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(rvSavedNews)
         }
-
-        viewModel.getSavedNews().observe(viewLifecycleOwner, Observer {
-            newsAdapter.differ.submitList(it)
-        })
     }
 
-    private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
+    private fun navigate() {
+        //TODO: navigate with args to articleFragment
+    }
+
+    private fun setupRecyclerView() {
         rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

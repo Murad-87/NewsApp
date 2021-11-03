@@ -7,10 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 class SavedNewsInteractor(private val repository: NewsRepository) {
 
-    suspend fun save(articleRemote: ArticleRemote) {
-        repository.upsert(articleRemote)
-    }
-
     fun flow() : Flow<List<ArticleEntity>> = repository.flow()
 
     suspend fun delete(articleEntity: ArticleEntity) {

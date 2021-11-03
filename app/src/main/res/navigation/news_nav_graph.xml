@@ -31,5 +31,9 @@
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.example.testapp1.feature.articleFragment.ui.ArticleFragment"
-        android:label="ArticleFragment" />
+        android:label="ArticleFragment" >
+        <argument
+            android:name="selectedNews"
+            app:argType="com.example.testapp1.data.remote.model.ArticleRemote" />
+    </fragment>
 </navigation>

@@ -22,7 +22,7 @@ class BreakingNewsViewModel(private val breakingNewsInteractor: BreakingNewsInte
     var breakingNewsPage = 1
     private var breakingNewsResponse: NewsResponse? = null
 
-    private fun getBreakingNewsCall(countryCode: String, hasInternetConnection: Boolean) {
+    fun getBreakingNews(countryCode: String, hasInternetConnection: Boolean) {
         breakingNewsMutable.postValue(Resource.Loading())
         try {
             if (hasInternetConnection) {

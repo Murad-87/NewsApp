@@ -6,27 +6,27 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.testapp1.R
-import com.example.testapp1.feature.NewsActivity
-import com.example.testapp1.feature.presentetion.NewsViewModel
+import com.example.testapp1.feature.articleFragment.presentation.ArticleFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_article.*
+import javax.inject.Inject
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
 
-    lateinit var viewModel: NewsViewModel
-    val args: ArticleFragmentArgs by navArgs()
+    @Inject
+    lateinit var viewModel: ArticleFragmentViewModel
+    private val args: ArticleFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as NewsActivity).viewModel
-        val article = args.article
+        val article = args.selectedNews
         webView.apply {
             webViewClient = WebViewClient()
-            article.url?.let { loadUrl(article) }
+            article.url?.let { loadUrl(article.url) }
         }
 
         fab.setOnClickListener {
-            viewModel.saveArticle(article)
+            viewModel.save(article)
             Snackbar.make(view, "Article saved successfully", Snackbar.LENGTH_SHORT).show()
         }
     }

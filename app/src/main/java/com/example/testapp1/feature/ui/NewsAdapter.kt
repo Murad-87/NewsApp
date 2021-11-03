@@ -1,64 +1,54 @@
 package com.example.testapp1.feature.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.testapp1.R
 import com.example.testapp1.data.remote.model.ArticleRemote
-import kotlinx.android.synthetic.main.item_article_preview.view.*
+import com.example.testapp1.databinding.ItemArticlePreviewBinding
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter : ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(DiffCallback()) {
 
-    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private var onItemClickListener: ((ArticleRemote) -> Unit)? = null
 
-    private val differCallback = object : DiffUtil.ItemCallback<ArticleRemote>(){
-        override fun areItemsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote): Boolean {
-            return oldItem.url == newItem.url
-        }
-
-        override fun areContentsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote): Boolean {
-          return oldItem == newItem
-        }
-    }
-
-    val differ = AsyncListDiffer(this, differCallback)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_article_preview,
-                parent,
-                false
-            )
-        )
+        val binding =
+            ItemArticlePreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ArticleViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val article = differ.currentList[position]
-        holder.itemView.apply {
-            Glide.with(this).load(article.urlToImage).into(ivArticleImage)
-            tvSource.text = article.sourceRemote?.name
-            tvTitle.text = article.title
-            tvDescription.text = article.description
-            tvPublishedAt.text = article.publishedAt
-            setOnClickListener{
-                onItemClickListener?.let { it(article) }
+        holder.bind(getItem(position))
+    }
+
+    inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(articleRemote: ArticleRemote) {
+            with(binding) {
+                Glide.with(binding.root).load(articleRemote.urlToImage).into(ivArticleImage)
+                tvSource.text = articleRemote.sourceRemote?.name
+                tvTitle.text = articleRemote.title
+                tvDescription.text = articleRemote.description
+                tvPublishedAt.text = articleRemote.publishedAt
+                root.setOnClickListener{
+                    onItemClickListener?.let { it(articleRemote) }
+                }
             }
         }
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
+    class DiffCallback : DiffUtil.ItemCallback<ArticleRemote>() {
+        override fun areItemsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
+            oldItem.url == newItem.url
 
-    private var onItemClickListener: ((ArticleRemote) -> Unit)? = null
+
+        override fun areContentsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
+            oldItem == newItem
+    }
 
     fun setOnItemClickListener(listener: (ArticleRemote) -> Unit){
         onItemClickListener = listener
     }
-
-
 }

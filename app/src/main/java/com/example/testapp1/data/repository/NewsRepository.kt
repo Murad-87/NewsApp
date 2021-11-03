@@ -6,9 +6,7 @@ import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class NewsRepository(

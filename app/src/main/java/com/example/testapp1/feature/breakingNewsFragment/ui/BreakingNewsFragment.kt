@@ -5,28 +5,28 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp1.NewsApplication
-import com.example.testapp1.R
 import com.example.testapp1.databinding.FragmentBreakingNewsBinding
-import com.example.testapp1.feature.NewsActivity
-import com.example.testapp1.feature.presentetion.NewsViewModel
+import com.example.testapp1.feature.breakingNewsFragment.presentation.BreakingNewsViewModel
 import com.example.testapp1.feature.ui.NewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.example.testapp1.utils.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.testapp1.utils.Resource
+import com.example.testapp1.utils.hasInternetConnection
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import javax.inject.Inject
 
 class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentBreakingNewsBinding::inflate) {
 
-    @Inject lateinit var viewModel: NewsViewModel
-    lateinit var newsAdapter: NewsAdapter
+    @Inject
+    lateinit var viewModel: BreakingNewsViewModel
+    private val newsAdapter by lazy { NewsAdapter() }
 
-    val TAG = "BreakingNewsFragment"
-
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
 
     override fun onAttach(context: Context) {
         (requireActivity().application as NewsApplication).applicationComponent.injectBreakingNewsFragment(
@@ -37,17 +37,10 @@ class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as NewsActivity).viewModel
         setupRecyclerView()
 
         newsAdapter.setOnItemClickListener {
-            val bundle = Bundle().apply {
-                putSerializable("article", it)
-            }
-            findNavController().navigate(
-                R.id.action_breakingNewsFragment_to_articleFragment,
-                bundle
-            )
+            //TODO: navigate with args to articleFragment
         }
 
         viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
@@ -55,7 +48,7 @@ class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentB
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.articles.toList())
+                        newsAdapter.submitList(newsResponse.articles.toList())
                         val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.breakingNewsPage == totalPages
                         if (isLastPage){
@@ -87,11 +80,7 @@ class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentB
         isLoading = true
     }
 
-    var isLoading = false
-    var isLastPage = false
-    var isScrolling = false
-
-    val scrollListener = object : RecyclerView.OnScrollListener(){
+    private val scrollListener = object : RecyclerView.OnScrollListener(){
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -115,19 +104,17 @@ class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentB
             val shouldPaginate = isNotLoadingPageAndNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                viewModel.getBreakingNews("ru")
+                viewModel.getBreakingNews("ru", requireContext().hasInternetConnection())
                 isScrolling = false
             }
         }
     }
 
     private fun setupRecyclerView(){
-        newsAdapter = NewsAdapter()
         rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
     }
-
 }

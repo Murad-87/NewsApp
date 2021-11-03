@@ -21,7 +21,7 @@ class SearchNewsViewModel(private val searchedNewsInteractor: SearchedNewsIntera
     var searchNewsPage = 1
     private var searchNewsResponse: NewsResponse? = null
 
-    private fun getSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
+    fun getSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
         searchNewsMutable.postValue(Resource.Loading())
         try {
             if (hasInternetConnection) {
