@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 
 @Keep
 data class NewsResponse(
-    val articles: List<ArticleRemote>,
+    val articles: ArrayList<ArticleRemote>,
     val status: String,
     val totalResults: Int
 )

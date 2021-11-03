@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.ui
+package com.example.testapp1.feature.SavedNewsFragment.ui
 
 import android.os.Bundle
 import android.view.View
@@ -11,6 +11,7 @@ import com.example.testapp1.R
 import com.example.testapp1.databinding.FragmentSavedNewsBinding
 import com.example.testapp1.feature.NewsActivity
 import com.example.testapp1.feature.presentetion.NewsViewModel
+import com.example.testapp1.feature.ui.NewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_saved_news.*

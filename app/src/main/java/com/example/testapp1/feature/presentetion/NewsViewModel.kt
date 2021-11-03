@@ -1,11 +1,12 @@
 package com.example.testapp1.feature.presentetion
 
-import android.net.ConnectivityManager.*
-import android.net.NetworkCapabilities.*
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testapp1.business.BreakingNewsInteractor
 import com.example.testapp1.business.SavedNewsInteractor
+import com.example.testapp1.business.SearchedNewsInteractor
 import com.example.testapp1.data.local.model.ArticleEntity
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.remote.model.NewsResponse
@@ -16,25 +17,47 @@ import retrofit2.Response
 import java.io.IOException
 
 class NewsViewModel(
-    private val savedNewsInteractor: SavedNewsInteractor
+    private val savedNewsInteractor: SavedNewsInteractor,
+    private val breakingNewsInteractor: BreakingNewsInteractor,
+    private val searchedNewsInteractor: SearchedNewsInteractor
 ) : ViewModel() {
 
-    val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    var breakingNewsPage = 1
-    var breakingNewsResponse: NewsResponse? = null
+    private val breakingNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    val breakingNews: LiveData<Resource<NewsResponse>>
+        get() = breakingNewsMutable
 
-    val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    var breakingNewsPage = 1
+    private var breakingNewsResponse: NewsResponse? = null
+
+    private val searchNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    val searchNews: LiveData<Resource<NewsResponse>>
+        get() = searchNewsMutable
+
     var searchNewsPage = 1
-    var searchNewsResponse: NewsResponse? = null
+    private var searchNewsResponse: NewsResponse? = null
 
     //TODO: make call in viewCreate() to getBreakingNews()
 
-    fun getBreakingNews(countryCode: String, hasInternetConnection: Boolean) = viewModelScope.launch {
-        safeBreakingNewsCall(countryCode, hasInternetConnection)
-    }
-
-    fun searchNews(searchQuery: String, hasInternetConnection: Boolean) = viewModelScope.launch {
-        safeSearchNewsCall(searchQuery, hasInternetConnection)
+    private fun getBreakingNewsCall(countryCode: String, hasInternetConnection: Boolean) {
+        breakingNewsMutable.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection) {
+                viewModelScope.launch(Dispatchers.IO) {
+                    breakingNewsMutable.postValue(
+                        handleBreakingNewsResponse(
+                            breakingNewsInteractor.get(countryCode, breakingNewsPage)
+                        )
+                    )
+                }
+            } else {
+                breakingNewsMutable.postValue(Resource.Error("No internet connection"))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> breakingNewsMutable.postValue(Resource.Error("Network Failure"))
+                else -> breakingNewsMutable.postValue(Resource.Error("Conversion Error"))
+            }
+        }
     }
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
@@ -54,6 +77,27 @@ class NewsViewModel(
         return Resource.Error(response.message())
     }
 
+    private fun getSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
+        searchNewsMutable.postValue(Resource.Loading())
+        try {
+            if (hasInternetConnection) {
+                viewModelScope.launch(Dispatchers.IO) {
+                    searchNewsMutable.postValue(handleSearchNewsResponse(
+                        searchedNewsInteractor.get(searchQuery, searchNewsPage)
+                        )
+                    )
+                }
+            } else {
+                searchNewsMutable.postValue(Resource.Error("No internet connection"))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> searchNewsMutable.postValue(Resource.Error("Network Failure"))
+                else -> searchNewsMutable.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+
     private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -70,41 +114,6 @@ class NewsViewModel(
         }
         return Resource.Error(response.message())
     }
-
-    private fun safeSearchNewsCall(searchQuery: String, hasInternetConnection: Boolean) {
-        searchNews.postValue(Resource.Loading())
-        try {
-            if (hasInternetConnection) {
-                val response = newsRepository.searchNews(searchQuery, searchNewsPage)
-                searchNews.postValue(handleSearchNewsResponse(response))
-            } else {
-                searchNews.postValue(Resource.Error("No internet connection"))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> searchNews.postValue(Resource.Error("Network Failure"))
-                else -> searchNews.postValue(Resource.Error("Conversion Error"))
-            }
-        }
-    }
-
-    private fun safeBreakingNewsCall(countryCode: String, hasInternetConnection: Boolean) {
-        breakingNews.postValue(Resource.Loading())
-        try {
-            if (hasInternetConnection) {
-                val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
-                breakingNews.postValue(handleBreakingNewsResponse(response))
-            } else {
-                breakingNews.postValue(Resource.Error("No internet connection"))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> breakingNews.postValue(Resource.Error("Network Failure"))
-                else -> breakingNews.postValue(Resource.Error("Conversion Error"))
-            }
-        }
-    }
-
 
     fun saveArticle(article: ArticleRemote) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,36 +1,39 @@
-package com.example.testapp1.feature.ui
+package com.example.testapp1.feature.BreakingNewsFragment.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapp1.NewsApplication
 import com.example.testapp1.R
-import com.example.testapp1.databinding.FragmentSearchNewsBinding
+import com.example.testapp1.databinding.FragmentBreakingNewsBinding
 import com.example.testapp1.feature.NewsActivity
 import com.example.testapp1.feature.presentetion.NewsViewModel
+import com.example.testapp1.feature.ui.NewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
-import com.example.testapp1.utils.Constants
-import com.example.testapp1.utils.Constants.Companion.SEARCH_NEWS_TIME_DELAY
+import com.example.testapp1.utils.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.testapp1.utils.Resource
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
-import kotlinx.android.synthetic.main.fragment_search_news.*
-import kotlinx.android.synthetic.main.fragment_search_news.paginationProgressBar
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentBreakingNewsBinding::inflate) {
 
-class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>(FragmentSearchNewsBinding::inflate) {
-
-    lateinit var viewModel: NewsViewModel
+    @Inject lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
-    val TAG = "SearchNewsFragment"
+
+    val TAG = "BreakingNewsFragment"
+
+
+    override fun onAttach(context: Context) {
+        (requireActivity().application as NewsApplication).applicationComponent.injectBreakingNewsFragment(
+            this
+        )
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,36 +45,23 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>(FragmentSearc
                 putSerializable("article", it)
             }
             findNavController().navigate(
-                R.id.action_searchNewsFragment_to_articleFragment,
+                R.id.action_breakingNewsFragment_to_articleFragment,
                 bundle
             )
         }
 
-        var job: Job? = null
-        etSearch.addTextChangedListener { editable ->
-            job?.cancel()
-            job = MainScope().launch {
-                delay(SEARCH_NEWS_TIME_DELAY)
-                editable?.let {
-                    if (editable.toString().isNotEmpty()){
-                        viewModel.searchNews(editable.toString())
-                    }
-                }
-            }
-        }
-
-
-        viewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
             when(response){
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->
                         newsAdapter.differ.submitList(newsResponse.articles.toList())
-                        val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
-                        isLastPage = viewModel.searchNewsPage == totalPages
+                        val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.breakingNewsPage == totalPages
                         if (isLastPage){
-                            rvSearchNews.setPadding(0,0,0,0)
+                            rvBreakingNews.setPadding(0,0,0,0)
                         }
+
                     }
                 }
                 is Resource.Error -> {
@@ -97,7 +87,6 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>(FragmentSearc
         isLoading = true
     }
 
-
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
@@ -122,23 +111,23 @@ class SearchNewsFragment : BaseFragment<FragmentSearchNewsBinding>(FragmentSearc
             val isNotLoadingPageAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingPageAndNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                viewModel.searchNews(etSearch.text.toString())
+                viewModel.getBreakingNews("ru")
                 isScrolling = false
             }
         }
     }
 
-
     private fun setupRecyclerView(){
         newsAdapter = NewsAdapter()
-        rvSearchNews.apply {
+        rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@SearchNewsFragment.scrollListener)
+            addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
     }
+
 }
