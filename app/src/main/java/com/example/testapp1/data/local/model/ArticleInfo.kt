@@ -1,7 +1,7 @@
 package com.example.testapp1.data.local.model
 
 
-data class ArticleLocal(
+data class ArticleInfo(
     val author: String?,
     val content: String?,
     val description: String?,

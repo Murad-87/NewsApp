@@ -50,7 +50,7 @@ class BreakingNewsFragment : BaseFragment<FragmentBreakingNewsBinding>(FragmentB
             )
         }
 
-        viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
             when(response){
                 is Resource.Success -> {
                     hideProgressBar()

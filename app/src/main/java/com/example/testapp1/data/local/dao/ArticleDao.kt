@@ -11,7 +11,7 @@ interface ArticleDao {
     fun flow(): Flow<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(article: List<ArticleEntity>)
+    suspend fun upsert(article: ArticleEntity)
 
     @Delete
     suspend fun deleteArticle(article: ArticleEntity)
