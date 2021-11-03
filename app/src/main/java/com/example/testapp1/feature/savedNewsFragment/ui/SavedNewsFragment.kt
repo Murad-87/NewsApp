@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.SavedNewsFragment.ui
+package com.example.testapp1.feature.savedNewsFragment.ui
 
 import android.os.Bundle
 import android.view.View

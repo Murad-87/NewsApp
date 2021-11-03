@@ -1,6 +1,6 @@
 package com.example.testapp1.di.feature.search_news_fragment
 
-import com.example.testapp1.feature.SearchNewsFragment.ui.SearchNewsFragment
+import com.example.testapp1.feature.searchNewsFragment.ui.SearchNewsFragment
 import dagger.Component
 
 @Component(modules = [SearchNewsFragment::class])

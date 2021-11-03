@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.BreakingNewsFragment.ui
+package com.example.testapp1.feature.breakingNewsFragment.ui
 
 import android.content.Context
 import android.os.Bundle

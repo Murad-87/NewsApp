@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/breakingNewsFragment"
-        android:name="com.example.testapp1.feature.BreakingNewsFragment.ui.BreakingNewsFragment"
+        android:name="com.example.testapp1.feature.breakingNewsFragment.ui.BreakingNewsFragment"
         android:label="BreakingNewsFragment" >
         <action
             android:id="@+id/action_breakingNewsFragment_to_articleFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
-        android:name="com.example.testapp1.feature.SavedNewsFragment.ui.SavedNewsFragment"
+        android:name="com.example.testapp1.feature.savedNewsFragment.ui.SavedNewsFragment"
         android:label="SavedNewsFragment" >
         <action
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchNewsFragment"
-        android:name="com.example.testapp1.feature.SearchNewsFragment.ui.SearchNewsFragment"
+        android:name="com.example.testapp1.feature.searchNewsFragment.ui.SearchNewsFragment"
         android:label="SearchNewsFragment" >
         <action
             android:id="@+id/action_searchNewsFragment_to_articleFragment"
@@ -30,6 +30,6 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.example.testapp1.feature.ArticleFragment.ui.ArticleFragment"
+        android:name="com.example.testapp1.feature.articleFragment.ui.ArticleFragment"
         android:label="ArticleFragment" />
 </navigation>
