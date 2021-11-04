@@ -6,7 +6,7 @@ import com.example.testapp1.data.local.model.SourceLocal
 import com.example.testapp1.data.remote.model.ArticleRemote
 import javax.inject.Inject
 
-class RemoteToLocalMapper @Inject constructor() {
+class RemoteToLocalMapper {
     fun map(articleRemote: ArticleRemote): ArticleEntity {
         with(articleRemote) {
             return ArticleEntity(

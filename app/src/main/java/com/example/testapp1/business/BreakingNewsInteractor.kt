@@ -9,8 +9,4 @@ class BreakingNewsInteractor(private val repository: NewsRepository) {
     suspend fun get(countryCode: String, pageNumber: Int) : Response<NewsResponse> {
         return repository.getBreakingNews(countryCode, pageNumber)
     }
-
-    fun handleResponse() {
-
-    }
 }

@@ -9,8 +9,4 @@ class SearchedNewsInteractor(private val repository: NewsRepository) {
     suspend fun get(searchQuery: String, pageNumber: Int) : Response<NewsResponse> {
         return repository.getSearchNews(searchQuery, pageNumber)
     }
-
-    fun handleResponse() {
-
-    }
 }

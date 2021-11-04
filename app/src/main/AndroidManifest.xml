@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestApp1"
         tools:targetApi="m">
-        <activity android:name="com.example.testapp1.feature.NewsActivity">
+        <activity android:name="com.example.testapp1.feature.NewsActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
