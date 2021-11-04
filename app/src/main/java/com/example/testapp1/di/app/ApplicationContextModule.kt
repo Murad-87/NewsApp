@@ -1,15 +1,16 @@
 package com.example.testapp1.di.app
 
-import android.app.Application
 import android.content.Context
+import com.example.testapp1.NewsApplication
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 
 @Module
-object ApplicationContextModule {
+class ApplicationContextModule(private var application: NewsApplication) {
 
     @Provides
-    @JvmStatic
-    fun provideContext(application: Application): Context =application.applicationContext
+    @Singleton
+    fun getContext(): Context = application
 }

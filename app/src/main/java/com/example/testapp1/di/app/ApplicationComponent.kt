@@ -1,8 +1,6 @@
 package com.example.testapp1.di.app
 
-import android.app.Application
-import com.example.testapp1.feature.breakingNewsFragment.ui.BreakingNewsFragment
-import dagger.BindsInstance
+import android.content.Context
 import dagger.Component
 
 
@@ -12,13 +10,5 @@ import dagger.Component
     ]
 )
 interface ApplicationComponent {
-    fun injectBreakingNewsFragment(breakingNewsFragment: BreakingNewsFragment)
-
-
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: Application): Builder
-        fun build(): ApplicationComponent
-    }
+    fun appContext() : Context
 }
