@@ -3,15 +3,14 @@ package com.example.testapp1.feature.articleFragment.ui
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.testapp1.R
+import com.example.testapp1.databinding.FragmentArticleBinding
 import com.example.testapp1.feature.articleFragment.presentation.ArticleFragmentViewModel
+import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_article.*
 import javax.inject.Inject
 
-class ArticleFragment : Fragment(R.layout.fragment_article) {
+class ArticleFragment : BaseFragment<FragmentArticleBinding>(FragmentArticleBinding::inflate) {
 
     @Inject
     lateinit var viewModel: ArticleFragmentViewModel
@@ -19,15 +18,26 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val article = args.selectedNews
-        webView.apply {
+        val articleRemote = args.selectedNews
+        val savedArticle = args.selectedSavedNews
+        binding.webView.apply {
             webViewClient = WebViewClient()
-            article.url?.let { loadUrl(article.url) }
+            articleRemote?.let {
+                it.url?.let { loadUrl(articleRemote.url!!) }
+            }
+            savedArticle?.let {
+                it.articleInfo.url.let { loadUrl(savedArticle.articleInfo.url!!) }
+            }
         }
 
-        fab.setOnClickListener {
-            viewModel.save(article)
-            Snackbar.make(view, "Article saved successfully", Snackbar.LENGTH_SHORT).show()
+        if (articleRemote != null) {
+            binding.fab.visibility = View.VISIBLE
+            binding.fab.setOnClickListener {
+                viewModel.save(articleRemote)
+                Snackbar.make(view, "Article saved successfully", Snackbar.LENGTH_SHORT).show()
+            }
+        } else {
+            binding.fab.visibility = View.GONE
         }
     }
 }

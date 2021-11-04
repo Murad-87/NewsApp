@@ -1,9 +1,12 @@
 package com.example.testapp1.data.local.model
 
+import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "ArticlesEntity")
 data class ArticleEntity(
     @PrimaryKey(autoGenerate = true)
@@ -12,4 +15,4 @@ data class ArticleEntity(
     val articleInfo: ArticleInfo,
     @Embedded
     val sourceLocal: SourceLocal?
-)
+) : Parcelable

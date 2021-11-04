@@ -2,9 +2,11 @@ package com.example.testapp1.feature.savedNewsFragment.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapp1.data.local.model.ArticleEntity
 import com.example.testapp1.databinding.FragmentSavedNewsBinding
 import com.example.testapp1.feature.savedNewsFragment.presentation.SavedNewsViewModel
 import com.example.testapp1.utils.BaseClasses.BaseFragment
@@ -26,7 +28,7 @@ class SavedNewsFragment :
         initTouchListener()
 
         newsAdapter.setOnItemClickListener {
-            navigate()
+            navigate(it)
         }
 
         viewModel.getSavedNews().observe(viewLifecycleOwner) {
@@ -54,8 +56,7 @@ class SavedNewsFragment :
                 Snackbar.make(requireView(), "Successfully deleted article", Snackbar.LENGTH_LONG)
                     .apply {
                         setAction("Undo") {
-                            //viewModel.saveArticle(article)
-                            //TODO: find UNDO action
+                            viewModel.reloadArticle(article)
                         }
                         show()
                     }
@@ -67,8 +68,13 @@ class SavedNewsFragment :
         }
     }
 
-    private fun navigate() {
-        //TODO: navigate with args to articleFragment
+    private fun navigate(articleEntity: ArticleEntity) {
+        findNavController().navigate(
+            SavedNewsFragmentDirections.actionSavedNewsFragmentToArticleFragment(
+                null,
+                articleEntity
+            )
+        )
     }
 
     private fun setupRecyclerView() {

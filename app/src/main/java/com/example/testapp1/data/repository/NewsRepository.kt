@@ -25,11 +25,13 @@ class NewsRepository(
             .let { dao.upsert(it) }
     }
 
+    suspend fun reload(article: ArticleEntity) {
+        dao.upsert(article)
+    }
+
     suspend fun deleteArticle(article: ArticleEntity) {
         dao.deleteArticle(article)
     }
 
     fun flow(): Flow<List<ArticleEntity>> = dao.flow()
-
-    //TODO: withContext(Dispatchers.IO)
 }

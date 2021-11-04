@@ -5,14 +5,16 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapp1.data.remote.model.ArticleRemote
+import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.databinding.FragmentSearchNewsBinding
 import com.example.testapp1.feature.searchNewsFragment.presentation.SearchNewsViewModel
 import com.example.testapp1.feature.ui.NewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.example.testapp1.utils.Constants
-import com.example.testapp1.utils.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.example.testapp1.utils.Resource
 import com.example.testapp1.utils.hasInternetConnection
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
@@ -41,9 +43,27 @@ class SearchNewsFragment :
         setupRecyclerView()
 
         newsAdapter.setOnItemClickListener {
-            navigate()
+            navigate(it)
         }
 
+        delayedNewsSearch()
+
+        viewModel.searchNews.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is Resource.Success -> {
+                    handleSuccess(response)
+                }
+                is Resource.Error -> {
+                    handleError(response)
+                }
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        })
+    }
+
+    private fun delayedNewsSearch() {
         var job: Job? = null
         etSearch.addTextChangedListener { editable ->
             job?.cancel()
@@ -59,33 +79,26 @@ class SearchNewsFragment :
                 }
             }
         }
+    }
 
-
-        viewModel.searchNews.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let { newsResponse ->
-                        newsAdapter.submitList(newsResponse.articles.toList())
-                        val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
-                        isLastPage = viewModel.searchNewsPage == totalPages
-                        if (isLastPage) {
-                            rvSearchNews.setPadding(0, 0, 0, 0)
-                        }
-                    }
-                }
-                is Resource.Error -> {
-                    hideProgressBar()
-                    response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
+    private fun handleSuccess(response: Resource<NewsResponse>) {
+        hideProgressBar()
+        response.data?.let { newsResponse ->
+            newsAdapter.submitList(newsResponse.articles.toList())
+            val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
+            isLastPage = viewModel.searchNewsPage == totalPages
+            if (isLastPage) {
+                rvSearchNews.setPadding(0, 0, 0, 0)
             }
-        })
+        }
+    }
+
+    private fun handleError(response: Resource<NewsResponse>) {
+        hideProgressBar()
+        response.message?.let { message ->
+            Toast.makeText(activity, "An error occurred: $message", Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
     private fun hideProgressBar() {
@@ -98,7 +111,7 @@ class SearchNewsFragment :
         isLoading = true
     }
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -140,7 +153,16 @@ class SearchNewsFragment :
         }
     }
 
-    private fun navigate() {
-        //TODO: navigate to article with args
+    private fun navigate(article: ArticleRemote) {
+        findNavController().navigate(
+            SearchNewsFragmentDirections.actionSearchNewsFragmentToArticleFragment(
+                article,
+                null
+            )
+        )
+    }
+
+    private companion object {
+        const val SEARCH_NEWS_TIME_DELAY = 500L
     }
 }
