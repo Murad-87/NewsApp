@@ -5,6 +5,7 @@ import com.example.testapp1.di.app.AppComponentProvider
 import com.example.testapp1.di.app.ApplicationComponent
 import com.example.testapp1.di.app.ApplicationContextModule
 import com.example.testapp1.di.app.DaggerApplicationComponent
+import com.example.testapp1.feature.NewsActivity
 
 class NewsApplication : Application(), AppComponentProvider {
 

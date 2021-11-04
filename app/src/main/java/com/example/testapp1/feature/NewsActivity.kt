@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.testapp1.NewsApplication
 import com.example.testapp1.R
 import com.example.testapp1.databinding.ActivityNewsBinding
 import kotlinx.android.synthetic.main.activity_news.*

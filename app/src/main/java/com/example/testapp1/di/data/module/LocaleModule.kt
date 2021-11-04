@@ -1,6 +1,5 @@
 package com.example.testapp1.di.data.module
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.example.testapp1.data.local.dao.ArticleDao
@@ -12,6 +11,11 @@ import javax.inject.Singleton
 @Module
 class LocaleModule(private val context: Context) {
 
+    @Provides
+    @Singleton
+    fun provideContext() : Context {
+        return context
+    }
 
     @Provides
     @Singleton
