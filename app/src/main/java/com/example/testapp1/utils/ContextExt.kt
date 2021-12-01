@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 
 
+@Suppress("DEPRECATION")
 fun Context.hasInternetConnection(): Boolean {
     var result = false
     val connectivityManager = this.getSystemService(
@@ -22,7 +23,7 @@ fun Context.hasInternetConnection(): Boolean {
         }
     } else {
         connectivityManager.activeNetworkInfo?.run {
-            return when(type) {
+            return when (type) {
                 ConnectivityManager.TYPE_WIFI -> true
                 ConnectivityManager.TYPE_MOBILE -> true
                 ConnectivityManager.TYPE_ETHERNET -> true

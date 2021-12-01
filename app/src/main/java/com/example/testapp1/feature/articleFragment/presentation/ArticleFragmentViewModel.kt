@@ -6,8 +6,11 @@ import com.example.testapp1.business.SaveRemoteArticleUseCase
 import com.example.testapp1.data.remote.model.ArticleRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ArticleFragmentViewModel(private val saveRemoteArticleUseCase: SaveRemoteArticleUseCase) : ViewModel() {
+class ArticleFragmentViewModel @Inject constructor(
+    private val saveRemoteArticleUseCase: SaveRemoteArticleUseCase
+) : ViewModel() {
     fun save(article: ArticleRemote) {
         viewModelScope.launch(Dispatchers.IO) {
             saveRemoteArticleUseCase.save(article)

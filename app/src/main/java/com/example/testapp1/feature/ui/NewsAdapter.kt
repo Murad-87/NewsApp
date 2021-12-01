@@ -9,7 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.databinding.ItemArticlePreviewBinding
 
-class NewsAdapter : ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(DiffCallback()) {
+class NewsAdapter :
+    ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(DiffCallbackArticles()) {
 
     private var onItemClickListener: ((ArticleRemote) -> Unit)? = null
 
@@ -23,6 +24,10 @@ class NewsAdapter : ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(Di
         holder.bind(getItem(position))
     }
 
+    fun setOnItemClickListener(listener: (ArticleRemote) -> Unit) {
+        onItemClickListener = listener
+    }
+
     inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(articleRemote: ArticleRemote) {
@@ -32,23 +37,18 @@ class NewsAdapter : ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(Di
                 tvTitle.text = articleRemote.title
                 tvDescription.text = articleRemote.description
                 tvPublishedAt.text = articleRemote.publishedAt
-                root.setOnClickListener{
+                root.setOnClickListener {
                     onItemClickListener?.let { it(articleRemote) }
                 }
             }
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<ArticleRemote>() {
+    class DiffCallbackArticles : DiffUtil.ItemCallback<ArticleRemote>() {
         override fun areItemsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
             oldItem.url == newItem.url
 
-
         override fun areContentsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
             oldItem == newItem
-    }
-
-    fun setOnItemClickListener(listener: (ArticleRemote) -> Unit){
-        onItemClickListener = listener
     }
 }

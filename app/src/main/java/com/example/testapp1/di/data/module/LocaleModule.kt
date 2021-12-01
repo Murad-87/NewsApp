@@ -1,32 +1,26 @@
 package com.example.testapp1.di.data.module
 
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import com.example.testapp1.data.local.dao.ArticleDao
 import com.example.testapp1.data.local.database.ArticleDatabase
+import com.example.testapp1.di.data.DataScope
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class LocaleModule(private val context: Context) {
+class LocaleModule {
 
     @Provides
-    @Singleton
-    fun provideContext() : Context {
-        return context
-    }
-
-    @Provides
-    @Singleton
-    fun provideArticleDatabase(context: Context) : ArticleDatabase {
-        return Room.databaseBuilder(context, ArticleDatabase::class.java, "article_database")
+    @DataScope
+    fun provideArticleDatabase(context: Application) : ArticleDatabase {
+        return Room.databaseBuilder(context, ArticleDatabase::class.java, ArticleDatabase.DATABASE_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }
 
     @Provides
-    @Singleton
+    @DataScope
     fun provideArticleDao(articleDatabase: ArticleDatabase): ArticleDao {
         return articleDatabase.getArticleDao()
     }

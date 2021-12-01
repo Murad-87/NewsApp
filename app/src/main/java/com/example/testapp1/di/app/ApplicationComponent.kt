@@ -1,13 +1,12 @@
 package com.example.testapp1.di.app
 
-import android.content.Context
+import android.app.Application
 import dagger.Component
+import javax.inject.Singleton
 
-@Component(
-    modules = [
-        ApplicationContextModule::class,
-    ]
-)
+@Singleton
+@Component(modules = [ApplicationContextModule::class])
 interface ApplicationComponent {
-    fun appContext() : Context
+
+    fun applicationContext(): Application
 }

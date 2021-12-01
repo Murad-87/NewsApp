@@ -3,38 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".feature.searchNewsFragment.ui.SearchNewsFragment">
 
     <EditText
         android:id="@+id/etSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search..."
+        android:hint="@string/search_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill,TextFields" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchNews"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingBottom="50dp"
+        android:layout_height="@dimen/dimens_0_dp"
         android:clipToPadding="false"
+        android:paddingBottom="@dimen/dimens_50_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearch"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="@dimen/dimens_0_dp"
+        tools:listitem="@layout/item_article_preview"
+        tools:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/paginationProgressBar"
         style="?attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:background="@android:color/transparent"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/no_connection_imageview_search"
+        android:layout_width="@dimen/dimens_44_dp"
+        android:layout_height="@dimen/dimens_44_dp"
+        android:layout_marginBottom="@dimen/dimens_24_dp"
+        android:gravity="center"
+        android:src="@drawable/ic_no_connection"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/no_connection_title_text_view_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/no_connection_title_text_view_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens_8_dp"
+        android:text="@string/no_connection_title_ru"
+        android:textColor="@color/black_for_text_title"
+        android:textSize="@dimen/dimens_16_sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/no_connection_message_text_view_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/no_connection_message_text_view_search"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:gravity="center_horizontal|top"
+        android:lineSpacingExtra="@dimen/dimens_5_sp"
+        android:text="@string/no_connection_description_ru"
+        android:textColor="@color/gray_for_text_description"
+        android:textSize="@dimen/dimens_16_sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

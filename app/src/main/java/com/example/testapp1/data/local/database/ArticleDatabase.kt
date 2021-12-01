@@ -7,9 +7,13 @@ import com.example.testapp1.data.local.model.ArticleEntity
 
 @Database(
     entities = [ArticleEntity::class],
-    version = 4
+    version = 1
 )
 abstract class ArticleDatabase : RoomDatabase() {
 
     abstract fun getArticleDao(): ArticleDao
+
+    companion object {
+        const val DATABASE_NAME = "article_database"
+    }
 }

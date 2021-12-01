@@ -1,15 +1,13 @@
 package com.example.testapp1
 
 import android.app.Application
-import com.example.testapp1.di.app.AppComponentProvider
 import com.example.testapp1.di.app.ApplicationComponent
 import com.example.testapp1.di.app.ApplicationContextModule
 import com.example.testapp1.di.app.DaggerApplicationComponent
-import com.example.testapp1.feature.NewsActivity
 
-class NewsApplication : Application(), AppComponentProvider {
+class NewsApplication : Application() {
 
-    lateinit var applicationComponent: ApplicationComponent
+    private lateinit var applicationComponent: ApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -23,10 +21,4 @@ class NewsApplication : Application(), AppComponentProvider {
             .build()
     }
 
-    override fun provideCoreComponent(): ApplicationComponent {
-        if (this::applicationComponent.isInitialized.not()) {
-            initComponent()
-        }
-        return applicationComponent
-    }
 }

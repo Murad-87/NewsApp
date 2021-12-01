@@ -1,7 +1,6 @@
 package com.example.testapp1.data.remote.api
 
 import com.example.testapp1.data.remote.model.NewsResponse
-import com.example.testapp1.utils.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,10 +11,10 @@ interface NewsAPI {
     suspend fun getBreakingNews(
         @Query("country")
         countryCode: String = "ru",
+        @Query("apiKey")
+        apiKey: String = API_KEY,
         @Query("page")
         pageNumber: Int = 1,
-        @Query("apiKey")
-        apiKey: String = API_KEY
     ): Response<NewsResponse>
 
     @GET("v2/everything")
@@ -30,5 +29,6 @@ interface NewsAPI {
 
     companion object {
         const val BASE_URL = "http://newsapi.org"
+        private const val API_KEY = "9b2501d7b1ce481eab539c2ae6a8eb1a"
     }
 }

@@ -7,8 +7,9 @@ import com.example.testapp1.business.SavedNewsInteractor
 import com.example.testapp1.data.local.model.ArticleEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SavedNewsViewModel(
+class SavedNewsViewModel @Inject constructor(
     private val savedNewsInteractor: SavedNewsInteractor,
 ) : ViewModel() {
 

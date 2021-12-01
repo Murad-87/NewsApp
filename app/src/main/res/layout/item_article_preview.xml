@@ -4,50 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="@dimen/dimens_8_dp">
 
     <ImageView
         android:id="@+id/ivArticleImage"
-        android:layout_width="160dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/dimens_160_dp"
+        android:layout_height="@dimen/dimens_90_dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tvSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="SOURCE"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:text="@string/source"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivArticleImage" />
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:text="TITLE"
+        android:text="@string/title"
         android:textColor="@android:color/black"
-        android:textSize="15sp"
+        android:textSize="@dimen/dimens_16_sp"
         android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/ivArticleImage"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvDescription"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/dimens_8_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
         android:ellipsize="end"
         android:maxLines="5"
-        android:text="DESCRIPTION"
+        android:text="@string/description"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivArticleImage"
@@ -57,8 +58,8 @@
         android:id="@+id/tvPublishedAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="PUBLISHED AT"
+        android:layout_marginTop="@dimen/dimens_8_dp"
+        android:text="@string/published_at"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSource" />

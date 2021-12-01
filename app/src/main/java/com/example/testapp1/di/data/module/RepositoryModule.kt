@@ -4,18 +4,19 @@ import com.example.testapp1.data.local.dao.ArticleDao
 import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.data.repository.NewsRepository
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
+import com.example.testapp1.di.data.DataScope
 import dagger.Module
 import dagger.Provides
 
 @Module
-object RepositoryModule {
+class RepositoryModule {
 
     @Provides
-    @JvmStatic
+    @DataScope
     fun provideRemoteToLocalMapper() : RemoteToLocalMapper = RemoteToLocalMapper()
 
     @Provides
-    @JvmStatic
+    @DataScope
     fun provideRepository(
         api: NewsAPI,
         dao: ArticleDao,

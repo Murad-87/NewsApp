@@ -15,7 +15,7 @@ class NewsRepository(
     private val mapper: RemoteToLocalMapper,
 ) {
     suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
-        api.getBreakingNews(countryCode, pageNumber)
+        api.getBreakingNews(countryCode, pageNumber = pageNumber)
 
     suspend fun getSearchNews(searchQuery: String, pageNumber: Int): Response<NewsResponse> =
         api.searchForNews(searchQuery, pageNumber)
