@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.savedNewsFragment.ui
+package com.example.testapp1.presentation.savedNewsFragment.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -21,7 +21,7 @@ import com.example.testapp1.di.domain.component.DaggerDomainComponent
 import com.example.testapp1.di.domain.module.InteractorModule
 import com.example.testapp1.di.feature.component.DaggerFeatureComponent
 import com.example.testapp1.di.feature.module.ViewModelFactory
-import com.example.testapp1.feature.savedNewsFragment.presentation.SavedNewsViewModel
+import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.example.testapp1.utils.visibilityIf
 import com.google.android.material.snackbar.Snackbar

@@ -1,4 +1,4 @@
-package com.example.testapp1.feature
+package com.example.testapp1.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

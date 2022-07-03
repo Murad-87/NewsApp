@@ -1,8 +1,8 @@
-package com.example.testapp1.feature.articleFragment.presentation
+package com.example.testapp1.presentation.articleFragment.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testapp1.business.SaveRemoteArticleUseCase
+import com.example.testapp1.domain.SaveRemoteArticleUseCase
 import com.example.testapp1.data.remote.model.ArticleRemote
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

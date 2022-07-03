@@ -1,4 +1,4 @@
-package com.example.testapp1.business
+package com.example.testapp1.domain
 
 import com.example.testapp1.data.local.model.ArticleEntity
 import com.example.testapp1.data.repository.NewsRepository

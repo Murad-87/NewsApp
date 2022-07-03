@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.ui
+package com.example.testapp1.presentation.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
