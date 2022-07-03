@@ -1,9 +1,9 @@
 package com.example.testapp1.di.domain.module
 
-import com.example.testapp1.business.BreakingNewsUseCase
-import com.example.testapp1.business.SaveRemoteArticleUseCase
-import com.example.testapp1.business.SavedNewsInteractor
-import com.example.testapp1.business.SearchedNewsUseCase
+import com.example.testapp1.domain.BreakingNewsUseCase
+import com.example.testapp1.domain.SaveRemoteArticleUseCase
+import com.example.testapp1.domain.SavedNewsInteractor
+import com.example.testapp1.domain.SearchedNewsUseCase
 import com.example.testapp1.data.repository.NewsRepository
 import com.example.testapp1.di.domain.DomainScope
 import dagger.Module

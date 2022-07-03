@@ -1,9 +1,9 @@
-package com.example.testapp1.feature.savedNewsFragment.presentation
+package com.example.testapp1.presentation.savedNewsFragment.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.testapp1.business.SavedNewsInteractor
+import com.example.testapp1.domain.SavedNewsInteractor
 import com.example.testapp1.data.local.model.ArticleEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

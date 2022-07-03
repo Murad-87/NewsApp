@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.articleFragment.ui
+package com.example.testapp1.presentation.articleFragment.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -18,7 +18,7 @@ import com.example.testapp1.di.domain.component.DaggerDomainComponent
 import com.example.testapp1.di.domain.module.InteractorModule
 import com.example.testapp1.di.feature.component.DaggerFeatureComponent
 import com.example.testapp1.di.feature.module.ViewModelFactory
-import com.example.testapp1.feature.articleFragment.presentation.ArticleFragmentViewModel
+import com.example.testapp1.presentation.articleFragment.presentation.ArticleFragmentViewModel
 import com.example.testapp1.utils.BaseClasses.BaseFragment
  import com.example.testapp1.utils.visibilityIf
 import com.google.android.material.snackbar.Snackbar
