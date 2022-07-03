@@ -3,10 +3,10 @@ package com.example.testapp1.di.feature.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.testapp1.di.feature.ViewModelKey
-import com.example.testapp1.feature.articleFragment.presentation.ArticleFragmentViewModel
-import com.example.testapp1.feature.breakingNewsFragment.presentation.BreakingNewsViewModel
-import com.example.testapp1.feature.savedNewsFragment.presentation.SavedNewsViewModel
-import com.example.testapp1.feature.searchNewsFragment.presentation.SearchNewsViewModel
+import com.example.testapp1.presentation.articleFragment.presentation.ArticleFragmentViewModel
+import com.example.testapp1.presentation.breakingNewsFragment.presentation.BreakingNewsViewModel
+import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
+import com.example.testapp1.presentation.searchNewsFragment.presentation.SearchNewsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

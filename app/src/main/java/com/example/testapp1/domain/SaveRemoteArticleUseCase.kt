@@ -1,4 +1,4 @@
-package com.example.testapp1.business
+package com.example.testapp1.domain
 
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.repository.NewsRepository

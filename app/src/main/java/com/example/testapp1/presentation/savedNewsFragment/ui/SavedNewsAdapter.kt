@@ -1,4 +1,4 @@
-package com.example.testapp1.feature.savedNewsFragment.ui
+package com.example.testapp1.presentation.savedNewsFragment.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

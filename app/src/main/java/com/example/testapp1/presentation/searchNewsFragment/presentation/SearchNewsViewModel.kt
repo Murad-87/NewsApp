@@ -1,11 +1,11 @@
-package com.example.testapp1.feature.searchNewsFragment.presentation
+package com.example.testapp1.presentation.searchNewsFragment.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testapp1.R
-import com.example.testapp1.business.SearchedNewsUseCase
+import com.example.testapp1.domain.SearchedNewsUseCase
 import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.utils.Resource
 import kotlinx.coroutines.Dispatchers

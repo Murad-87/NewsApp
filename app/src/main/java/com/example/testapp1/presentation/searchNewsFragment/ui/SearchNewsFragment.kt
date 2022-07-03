@@ -1,10 +1,11 @@
-package com.example.testapp1.feature.breakingNewsFragment.ui
+package com.example.testapp1.presentation.searchNewsFragment.ui
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp1.R
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.remote.model.NewsResponse
-import com.example.testapp1.databinding.FragmentBreakingNewsBinding
+import com.example.testapp1.databinding.FragmentSearchNewsBinding
 import com.example.testapp1.di.app.ApplicationContextModule
 import com.example.testapp1.di.app.DaggerApplicationComponent
 import com.example.testapp1.di.data.component.DaggerDataComponent
@@ -23,22 +24,26 @@ import com.example.testapp1.di.domain.component.DaggerDomainComponent
 import com.example.testapp1.di.domain.module.InteractorModule
 import com.example.testapp1.di.feature.component.DaggerFeatureComponent
 import com.example.testapp1.di.feature.module.ViewModelFactory
-import com.example.testapp1.feature.breakingNewsFragment.presentation.BreakingNewsViewModel
-import com.example.testapp1.feature.searchNewsFragment.ui.SearchNewsFragment
-import com.example.testapp1.feature.ui.NewsAdapter
+import com.example.testapp1.presentation.searchNewsFragment.presentation.SearchNewsViewModel
+import com.example.testapp1.presentation.ui.NewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.example.testapp1.utils.Resource
 import com.example.testapp1.utils.hasInternetConnection
 import com.example.testapp1.utils.visibilityIf
-import kotlinx.android.synthetic.main.fragment_breaking_news.*
+import kotlinx.android.synthetic.main.fragment_search_news.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BreakingNewsFragment :
-    BaseFragment<FragmentBreakingNewsBinding>(FragmentBreakingNewsBinding::inflate) {
+
+class SearchNewsFragment :
+    BaseFragment<FragmentSearchNewsBinding>(FragmentSearchNewsBinding::inflate) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: BreakingNewsViewModel by viewModels {
+    private val viewModel: SearchNewsViewModel by viewModels {
         viewModelFactory
     }
     private val newsAdapter by lazy { NewsAdapter() }
@@ -83,12 +88,9 @@ class BreakingNewsFragment :
             navigate(it)
         }
 
-        viewModel.getBreakingNews(
-            getString(R.string.country_code),
-            requireContext().hasInternetConnection()
-        )
+        delayedNewsSearch()
 
-        viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
+        viewModel.searchNews.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     handleSuccess(response)
@@ -113,10 +115,29 @@ class BreakingNewsFragment :
 
     private fun changeVisibilityIfHasConnection(hasConnection: Boolean) {
         with(binding) {
-            rvBreakingNews.visibilityIf(hasConnection)
-            noConnectionImageviewBreaking.visibilityIf(!hasConnection)
-            noConnectionTitleTextViewBreaking.visibilityIf(!hasConnection)
-            noConnectionMessageTextViewBreaking.visibilityIf(!hasConnection)
+            rvSearchNews.visibilityIf(hasConnection)
+            noConnectionImageviewSearch.visibilityIf(!hasConnection)
+            noConnectionTitleTextViewSearch.visibilityIf(!hasConnection)
+            noConnectionMessageTextViewSearch.visibilityIf(!hasConnection)
+        }
+    }
+
+    private fun delayedNewsSearch() {
+        var job: Job? = null
+        etSearch.addTextChangedListener { editable ->
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_NEWS_TIME_DELAY)
+                editable?.let {
+                    if (editable.toString().isNotEmpty()) {
+                        viewModel.searchQuery = editable.toString()
+                        viewModel.getSearchNewsCall(
+                            editable.toString(),
+                            requireContext().hasInternetConnection()
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -124,10 +145,10 @@ class BreakingNewsFragment :
         progressBarVisibility(false)
         response.data?.let { newsResponse ->
             newsAdapter.submitList(newsResponse.articles.toList())
-            val totalPages = newsResponse.totalResults / SearchNewsFragment.QUERY_PAGE_SIZE + 2
-            isLastPage = viewModel.breakingNewsPage == totalPages
+            val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
+            isLastPage = viewModel.searchNewsPage == totalPages
             if (isLastPage) {
-                rvBreakingNews.setPadding(0, 0, 0, 0)
+                rvSearchNews.setPadding(0, 0, 0, 0)
             }
         }
     }
@@ -151,7 +172,8 @@ class BreakingNewsFragment :
                 requireContext(),
                 String.format(getString(R.string.error_message), getText(message)),
                 Toast.LENGTH_SHORT
-            ).show()
+            )
+                .show()
         }
     }
 
@@ -182,34 +204,41 @@ class BreakingNewsFragment :
             val isNotLoadingPageAndNotLastPage = !isLoading && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= SearchNewsFragment.QUERY_PAGE_SIZE
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingPageAndNotLastPage && isAtLastItem && isNotAtBeginning
                     && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                viewModel.getBreakingNews(
-                    getString(R.string.country_code),
-                    requireContext().hasInternetConnection()
+                viewModel.getSearchNewsCall(
+                    etSearch.text.toString(),
+                    requireContext().hasInternetConnection(),
+                    true
                 )
                 isScrolling = false
             }
         }
     }
 
-    private fun navigate(articleRemote: ArticleRemote) {
+
+    private fun initRecyclerView() {
+        binding.rvSearchNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@SearchNewsFragment.scrollListener)
+        }
+    }
+
+    private fun navigate(article: ArticleRemote) {
         findNavController().navigate(
-            BreakingNewsFragmentDirections
-                .actionBreakingNewsFragmentToArticleFragment(
-                    articleRemote,
+            SearchNewsFragmentDirections
+                .actionSearchNewsFragmentToArticleFragment(
+                    article,
                     null
                 )
         )
     }
 
-    private fun initRecyclerView() {
-        rvBreakingNews.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@BreakingNewsFragment.scrollListener)
-        }
+    companion object {
+        private const val SEARCH_NEWS_TIME_DELAY = 500L
+        const val QUERY_PAGE_SIZE = 20
     }
 }
