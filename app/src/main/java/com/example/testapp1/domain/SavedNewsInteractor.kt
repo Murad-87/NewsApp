@@ -3,8 +3,9 @@ package com.example.testapp1.domain
 import com.example.testapp1.data.local.model.ArticleEntity
 import com.example.testapp1.data.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class SavedNewsInteractor(private val repository: NewsRepository) {
+class SavedNewsInteractor @Inject constructor(private val repository: NewsRepository) {
 
     fun flow(): Flow<List<ArticleEntity>> = repository.flow()
 

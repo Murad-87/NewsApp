@@ -1,12 +1,11 @@
-package com.example.testapp1.di.feature.module
+package com.example.testapp1.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.testapp1.di.feature.FeatureScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-@FeatureScope
+@ApplicationScope
 class ViewModelFactory @Inject constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>,
 ) : ViewModelProvider.Factory {

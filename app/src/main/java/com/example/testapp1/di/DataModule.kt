@@ -1,18 +1,25 @@
-package com.example.testapp1.di.data.module
+package com.example.testapp1.di
 
 import android.app.Application
 import androidx.room.Room
 import com.example.testapp1.data.local.dao.ArticleDao
 import com.example.testapp1.data.local.database.ArticleDatabase
-import com.example.testapp1.di.data.DataScope
+import com.example.testapp1.data.remote.api.NewsAPI
+import com.example.testapp1.data.repository.NewsRepository
+import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
 import dagger.Module
 import dagger.Provides
 
+
 @Module
-class LocaleModule {
+class DataModule {
 
     @Provides
-    @DataScope
+    @ApplicationScope
+    fun provideRemoteToLocalMapper() : RemoteToLocalMapper = RemoteToLocalMapper()
+
+    @Provides
+    @ApplicationScope
     fun provideArticleDatabase(context: Application) : ArticleDatabase {
         return Room.databaseBuilder(context, ArticleDatabase::class.java, ArticleDatabase.DATABASE_NAME)
             .fallbackToDestructiveMigration()
@@ -20,8 +27,18 @@ class LocaleModule {
     }
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideArticleDao(articleDatabase: ArticleDatabase): ArticleDao {
         return articleDatabase.getArticleDao()
+    }
+
+    @Provides
+    @ApplicationScope
+    fun provideRepository(
+        api: NewsAPI,
+        dao: ArticleDao,
+        mapper: RemoteToLocalMapper
+    ): NewsRepository {
+        return NewsRepository(api, dao, mapper)
     }
 }

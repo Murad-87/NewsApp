@@ -1,7 +1,7 @@
-package com.example.testapp1.di.domain
+package com.example.testapp1.di
 
 import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DomainScope
+annotation class ApplicationScope()

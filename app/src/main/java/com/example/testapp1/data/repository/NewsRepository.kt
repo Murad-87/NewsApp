@@ -8,11 +8,12 @@ import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import javax.inject.Inject
 
-class NewsRepository(
+class NewsRepository @Inject constructor(
     private val api: NewsAPI,
     private val dao: ArticleDao,
-    private val mapper: RemoteToLocalMapper,
+    private val mapper: RemoteToLocalMapper
 ) {
     suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
         api.getBreakingNews(countryCode, pageNumber = pageNumber)
