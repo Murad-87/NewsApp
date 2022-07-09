@@ -1,24 +1,11 @@
 package com.example.testapp1
 
 import android.app.Application
-import com.example.testapp1.di.app.ApplicationComponent
-import com.example.testapp1.di.app.ApplicationContextModule
-import com.example.testapp1.di.app.DaggerApplicationComponent
+import com.example.testapp1.di.DaggerApplicationComponent
 
 class NewsApplication : Application() {
 
-    private lateinit var applicationComponent: ApplicationComponent
-
-    override fun onCreate() {
-        super.onCreate()
-        initComponent()
+    val component by lazy {
+        DaggerApplicationComponent.factory().create(this)
     }
-
-    private fun initComponent() {
-        applicationComponent = DaggerApplicationComponent
-            .builder()
-            .applicationContextModule(ApplicationContextModule(this))
-            .build()
-    }
-
 }

@@ -1,7 +1,6 @@
-package com.example.testapp1.di.data.module
+package com.example.testapp1.di
 
 import com.example.testapp1.data.remote.api.NewsAPI
-import com.example.testapp1.di.data.DataScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -13,17 +12,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RemoteModule {
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideLoggingInterceptor() : HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
     }
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
@@ -31,7 +30,7 @@ class RemoteModule {
     }
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(NewsAPI.BASE_URL)
@@ -41,6 +40,6 @@ class RemoteModule {
     }
 
     @Provides
-    @DataScope
+    @ApplicationScope
     fun provideNewsApi(retrofit: Retrofit): NewsAPI = retrofit.create(NewsAPI::class.java)
 }

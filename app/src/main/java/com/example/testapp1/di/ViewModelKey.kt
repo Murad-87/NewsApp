@@ -1,4 +1,4 @@
-package com.example.testapp1.di.feature
+package com.example.testapp1.di
 
 
 import androidx.lifecycle.ViewModel

@@ -1,8 +1,7 @@
-package com.example.testapp1.di.feature.module
+package com.example.testapp1.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.testapp1.di.feature.ViewModelKey
 import com.example.testapp1.presentation.articleFragment.presentation.ArticleFragmentViewModel
 import com.example.testapp1.presentation.breakingNewsFragment.presentation.BreakingNewsViewModel
 import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
