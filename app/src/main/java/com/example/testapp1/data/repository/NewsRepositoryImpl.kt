@@ -6,19 +6,20 @@ import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
+import com.example.testapp1.domain.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
-class NewsRepository @Inject constructor(
+class NewsRepositoryImpl @Inject constructor(
     private val api: NewsAPI,
     private val dao: ArticleDao,
     private val mapper: RemoteToLocalMapper
-) {
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
+) : NewsRepository {
+    override suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
         api.getBreakingNews(countryCode, pageNumber = pageNumber)
 
-    suspend fun getSearchNews(searchQuery: String, pageNumber: Int): Response<NewsResponse> =
+    override suspend fun getSearchNews(searchQuery: String, pageNumber: Int): Response<NewsResponse> =
         api.searchForNews(searchQuery, pageNumber)
 
     suspend fun upsert(articleRemote: ArticleRemote) {

@@ -28,7 +28,7 @@ class NewsActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.container_for_fragments) as NavHostFragment
         navController = navHostFragment.findNavController()
 
-        bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         binding.bottomNavigationView.setupWithNavController(navController)
     }

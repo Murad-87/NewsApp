@@ -17,11 +17,9 @@ import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.databinding.FragmentSearchNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.searchNewsFragment.presentation.SearchNewsViewModel
-import com.example.testapp1.presentation.ui.NewsAdapter
+import com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView.NewsAdapter
+import com.example.testapp1.utils.*
 import com.example.testapp1.utils.BaseClasses.BaseFragment
-import com.example.testapp1.utils.Resource
-import com.example.testapp1.utils.hasInternetConnection
-import com.example.testapp1.utils.visibilityIf
 import kotlinx.android.synthetic.main.fragment_search_news.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -59,7 +57,7 @@ class SearchNewsFragment :
 
         delayedNewsSearch()
 
-        viewModel.searchNews.observe(viewLifecycleOwner, { response ->
+        viewModel.searchNewsMutable.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     handleSuccess(response)
@@ -74,7 +72,7 @@ class SearchNewsFragment :
                     progressBarVisibility(true)
                 }
             }
-        })
+        }
     }
 
     override fun onStart() {
@@ -83,7 +81,7 @@ class SearchNewsFragment :
     }
 
     private fun changeVisibilityIfHasConnection(hasConnection: Boolean) {
-        with(binding) {
+        with(viewBinding) {
             rvSearchNews.visibilityIf(hasConnection)
             noConnectionImageviewSearch.visibilityIf(!hasConnection)
             noConnectionTitleTextViewSearch.visibilityIf(!hasConnection)
@@ -117,7 +115,7 @@ class SearchNewsFragment :
             val totalPages = newsResponse.totalResults / QUERY_PAGE_SIZE + 2
             isLastPage = viewModel.searchNewsPage == totalPages
             if (isLastPage) {
-                rvSearchNews.setPadding(0, 0, 0, 0)
+                rvSearchNews.setPadding(LEFT_PADDING, TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING)
             }
         }
     }
@@ -125,29 +123,19 @@ class SearchNewsFragment :
     private fun handleError(response: Resource<NewsResponse>) {
         progressBarVisibility(false)
         response.message?.let { message ->
-            Toast.makeText(
-                requireContext(),
-                String.format(getString(R.string.error_message, message)),
-                Toast.LENGTH_LONG
-            )
-                .show()
+            showToastLL(String.format(getString(R.string.error_message, message)))
         }
     }
 
     private fun handleLocalError(response: Resource<NewsResponse>) {
         progressBarVisibility(false)
         response.localMessage?.let { message ->
-            Toast.makeText(
-                requireContext(),
-                String.format(getString(R.string.error_message), getText(message)),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+            showToastLS(String.format(getString(R.string.error_message), getText(message)))
         }
     }
 
     private fun progressBarVisibility(isVisible: Boolean) {
-        binding.paginationProgressBar.visibilityIf(isVisible)
+        viewBinding.paginationProgressBar.visibilityIf(isVisible)
         isLoading = isVisible
     }
 
@@ -187,9 +175,8 @@ class SearchNewsFragment :
         }
     }
 
-
     private fun initRecyclerView() {
-        binding.rvSearchNews.apply {
+        viewBinding.rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@SearchNewsFragment.scrollListener)
@@ -209,5 +196,9 @@ class SearchNewsFragment :
     companion object {
         private const val SEARCH_NEWS_TIME_DELAY = 500L
         const val QUERY_PAGE_SIZE = 20
+        const val LEFT_PADDING = 0
+        const val RIGHT_PADDING = 0
+        const val TOP_PADDING  = 0
+        const val BOTTOM_PADDING = 0
     }
 }

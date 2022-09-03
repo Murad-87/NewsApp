@@ -1,4 +1,4 @@
-package com.example.testapp1.presentation.ui
+package com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -9,7 +9,13 @@
         <entry key="..\:/AndroidProjects/TestApp1/app/src/main/res/layout/fragment_saved_news.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/TestApp1/app/src/main/res/layout/fragment_search_news.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/TestApp1/app/src/main/res/layout/item_article_preview.xml" value="0.25" />
+        <entry key="..\:/NewsApp/app/src/main/res/drawable-v24/search_edit_text_background.xml" value="0.1585" />
+        <entry key="..\:/NewsApp/app/src/main/res/drawable/ic_saved_news.xml" value="0.1585" />
+        <entry key="..\:/NewsApp/app/src/main/res/layout/activity_news.xml" value="0.25" />
         <entry key="..\:/NewsApp/app/src/main/res/layout/fragment_article.xml" value="0.25" />
+        <entry key="..\:/NewsApp/app/src/main/res/layout/fragment_breaking_news.xml" value="0.25" />
+        <entry key="..\:/NewsApp/app/src/main/res/layout/fragment_saved_news.xml" value="0.25" />
+        <entry key="..\:/NewsApp/app/src/main/res/layout/fragment_search_news.xml" value="0.25" />
         <entry key="..\:/NewsApp/app/src/main/res/layout/item_article_preview.xml" value="0.25" />
         <entry key="..\:/TestApp1/app/src/main/res/drawable-v24/ic_no_connection.xml" value="0.2703125" />
         <entry key="..\:/TestApp1/app/src/main/res/drawable-v24/ic_no_saved_articles.xml" value="0.2703125" />

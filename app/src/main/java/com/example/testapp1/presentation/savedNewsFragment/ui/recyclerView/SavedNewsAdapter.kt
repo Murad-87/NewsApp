@@ -1,4 +1,4 @@
-package com.example.testapp1.presentation.savedNewsFragment.ui
+package com.example.testapp1.presentation.savedNewsFragment.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,7 +48,6 @@ class SavedNewsAdapter :
     class DiffCallback : DiffUtil.ItemCallback<ArticleEntity>() {
         override fun areItemsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity) =
             oldItem.title == newItem.title
-
 
         override fun areContentsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity) =
             oldItem == newItem
