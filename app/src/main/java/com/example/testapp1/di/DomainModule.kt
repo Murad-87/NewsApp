@@ -1,6 +1,6 @@
 package com.example.testapp1.di
 
-import com.example.testapp1.data.repository.NewsRepository
+import com.example.testapp1.data.repository.NewsRepositoryImpl
 import com.example.testapp1.domain.BreakingNewsUseCase
 import com.example.testapp1.domain.SaveRemoteArticleUseCase
 import com.example.testapp1.domain.SavedNewsInteractor
@@ -12,22 +12,22 @@ import dagger.Provides
 class DomainModule {
 
     @Provides
-    fun provideBreakingNewsUseCase(repository: NewsRepository) : BreakingNewsUseCase {
+    fun provideBreakingNewsUseCase(repository: NewsRepositoryImpl) : BreakingNewsUseCase {
         return BreakingNewsUseCase(repository)
     }
 
     @Provides
-    fun provideSavedNewsInteractor(repository: NewsRepository) : SavedNewsInteractor {
+    fun provideSavedNewsInteractor(repository: NewsRepositoryImpl) : SavedNewsInteractor {
         return SavedNewsInteractor(repository)
     }
 
     @Provides
-    fun provideSaveRemoteArticleUseCase(repository: NewsRepository) : SaveRemoteArticleUseCase {
+    fun provideSaveRemoteArticleUseCase(repository: NewsRepositoryImpl) : SaveRemoteArticleUseCase {
         return SaveRemoteArticleUseCase(repository)
     }
 
     @Provides
-    fun provideSearchedNewsUseCase(repository: NewsRepository) : SearchedNewsUseCase {
+    fun provideSearchedNewsUseCase(repository: NewsRepositoryImpl) : SearchedNewsUseCase {
         return SearchedNewsUseCase(repository)
     }
 }

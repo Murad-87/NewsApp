@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp1.NewsApplication
 import com.example.testapp1.R
-import com.example.testapp1.data.local.model.ArticleEntity
+import com.example.testapp1.data.local.model.ArticleDbModel
 import com.example.testapp1.databinding.FragmentSavedNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
+import com.example.testapp1.presentation.savedNewsFragment.ui.recyclerView.SavedNewsAdapter
 import com.example.testapp1.utils.BaseClasses.BaseFragment
 import com.example.testapp1.utils.visibilityIf
 import com.google.android.material.snackbar.Snackbar
@@ -89,12 +90,12 @@ class SavedNewsFragment :
         }
     }
 
-    private fun navigate(articleEntity: ArticleEntity) {
+    private fun navigate(articleDbModel: ArticleDbModel) {
         findNavController().navigate(
             SavedNewsFragmentDirections
                 .actionSavedNewsFragmentToArticleFragment(
                     null,
-                    articleEntity
+                    articleDbModel
                 )
         )
     }
@@ -107,7 +108,7 @@ class SavedNewsFragment :
     }
 
     private fun changeVisibilityIfNoArticles(hasArticles: Boolean) {
-        with(binding) {
+        with(viewBinding) {
             rvSavedNews.visibilityIf(hasArticles)
             noSavedArticlesImageView.visibilityIf(!hasArticles)
             noSavedArticlesTitleTextView.visibilityIf(!hasArticles)

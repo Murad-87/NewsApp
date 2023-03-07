@@ -35,7 +35,7 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>(FragmentArticleBind
         super.onViewCreated(view, savedInstanceState)
         val articleRemote = args.selectedNews
         val savedArticle = args.selectedSavedNews
-        binding.webView.apply {
+        viewBinding.webView.apply {
             webViewClient = WebViewClient()
             articleRemote?.let {
                 it.url?.let { loadUrl(articleRemote.url!!) }
@@ -46,13 +46,13 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>(FragmentArticleBind
         }
 
         if (articleRemote != null) {
-            binding.fab.visibilityIf(true)
-            binding.fab.setOnClickListener {
+            viewBinding.fab.visibilityIf(true)
+            viewBinding.fab.setOnClickListener {
                 viewModel.save(articleRemote)
                 Snackbar.make(view, getString(R.string.article_saved_successfully), Snackbar.LENGTH_SHORT).show()
             }
         } else {
-            binding.fab.visibilityIf(false)
+            viewBinding.fab.visibilityIf(false)
         }
     }
 }

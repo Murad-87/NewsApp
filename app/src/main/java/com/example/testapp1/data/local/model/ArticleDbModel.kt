@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = "ArticlesEntity")
-data class ArticleEntity(
+@Entity(tableName = "ArticlesDbModel")
+data class ArticleDbModel(
     @PrimaryKey
     val title: String,
     @Embedded

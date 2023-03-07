@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AbsListView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,12 +15,10 @@ import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.databinding.FragmentBreakingNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.breakingNewsFragment.presentation.BreakingNewsViewModel
+import com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView.NewsAdapter
 import com.example.testapp1.presentation.searchNewsFragment.ui.SearchNewsFragment
-import com.example.testapp1.presentation.ui.NewsAdapter
+import com.example.testapp1.utils.*
 import com.example.testapp1.utils.BaseClasses.BaseFragment
-import com.example.testapp1.utils.Resource
-import com.example.testapp1.utils.hasInternetConnection
-import com.example.testapp1.utils.visibilityIf
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import javax.inject.Inject
 
@@ -57,7 +54,7 @@ class BreakingNewsFragment :
             requireContext().hasInternetConnection()
         )
 
-        viewModel.breakingNews.observe(viewLifecycleOwner, { response ->
+        viewModel.breakingNewsMutable.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     handleSuccess(response)
@@ -72,7 +69,7 @@ class BreakingNewsFragment :
                     progressBarVisibility(true)
                 }
             }
-        })
+        }
     }
 
     override fun onStart() {
@@ -81,7 +78,7 @@ class BreakingNewsFragment :
     }
 
     private fun changeVisibilityIfHasConnection(hasConnection: Boolean) {
-        with(binding) {
+        with(viewBinding) {
             rvBreakingNews.visibilityIf(hasConnection)
             noConnectionImageviewBreaking.visibilityIf(!hasConnection)
             noConnectionTitleTextViewBreaking.visibilityIf(!hasConnection)
@@ -96,7 +93,7 @@ class BreakingNewsFragment :
             val totalPages = newsResponse.totalResults / SearchNewsFragment.QUERY_PAGE_SIZE + 2
             isLastPage = viewModel.breakingNewsPage == totalPages
             if (isLastPage) {
-                rvBreakingNews.setPadding(0, 0, 0, 0)
+                rvBreakingNews.setPadding(LEFT_PADDING, TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING)
             }
         }
     }
@@ -104,28 +101,19 @@ class BreakingNewsFragment :
     private fun handleError(response: Resource<NewsResponse>) {
         progressBarVisibility(false)
         response.message?.let { message ->
-            Toast.makeText(
-                requireContext(),
-                String.format(getString(R.string.error_message, message)),
-                Toast.LENGTH_LONG
-            )
-                .show()
+            showToastLL(String.format(getString(R.string.error_message, message)))
         }
     }
 
     private fun handleLocalError(response: Resource<NewsResponse>) {
         progressBarVisibility(false)
         response.localMessage?.let { message ->
-            Toast.makeText(
-                requireContext(),
-                String.format(getString(R.string.error_message), getText(message)),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToastLS(String.format(getString(R.string.error_message), getText(message)))
         }
     }
 
     private fun progressBarVisibility(isVisible: Boolean) {
-        binding.paginationProgressBar.visibilityIf(isVisible)
+        viewBinding.paginationProgressBar.visibilityIf(isVisible)
         isLoading = isVisible
     }
 
@@ -180,5 +168,12 @@ class BreakingNewsFragment :
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
+    }
+
+    companion object {
+        const val LEFT_PADDING = 0
+        const val RIGHT_PADDING = 0
+        const val TOP_PADDING = 0
+        const val BOTTOM_PADDING = 0
     }
 }

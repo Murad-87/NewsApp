@@ -1,24 +1,25 @@
 package com.example.testapp1.data.repository
 
 import com.example.testapp1.data.local.dao.ArticleDao
-import com.example.testapp1.data.local.model.ArticleEntity
+import com.example.testapp1.data.local.model.ArticleDbModel
 import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.data.remote.model.ArticleRemote
 import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
+import com.example.testapp1.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
-class NewsRepository @Inject constructor(
+class NewsRepositoryImpl @Inject constructor(
     private val api: NewsAPI,
     private val dao: ArticleDao,
     private val mapper: RemoteToLocalMapper
-) {
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
+) : NewsRepository {
+    override suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Response<NewsResponse> =
         api.getBreakingNews(countryCode, pageNumber = pageNumber)
 
-    suspend fun getSearchNews(searchQuery: String, pageNumber: Int): Response<NewsResponse> =
+    override suspend fun getSearchNews(searchQuery: String, pageNumber: Int): Response<NewsResponse> =
         api.searchForNews(searchQuery, pageNumber)
 
     suspend fun upsert(articleRemote: ArticleRemote) {
@@ -26,13 +27,13 @@ class NewsRepository @Inject constructor(
             .let { dao.upsert(it) }
     }
 
-    suspend fun reload(article: ArticleEntity) {
+    suspend fun reload(article: ArticleDbModel) {
         dao.upsert(article)
     }
 
-    suspend fun deleteArticle(article: ArticleEntity) {
+    suspend fun deleteArticle(article: ArticleDbModel) {
         dao.deleteArticle(article)
     }
 
-    fun flow(): Flow<List<ArticleEntity>> = dao.flow()
+    fun flow(): Flow<List<ArticleDbModel>> = dao.flow()
 }

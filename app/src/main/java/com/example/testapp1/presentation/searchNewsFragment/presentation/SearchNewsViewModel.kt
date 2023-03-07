@@ -19,9 +19,8 @@ class SearchNewsViewModel @Inject constructor(
 ) : ViewModel() {
     //TODO: handle second search for the same query after coming back
 
-    private val searchNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val searchNews: LiveData<Resource<NewsResponse>>
-        get() = searchNewsMutable
+    private val _searchNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    val searchNewsMutable: LiveData<Resource<NewsResponse>> = _searchNewsMutable
 
     var searchNewsPage = 1
     private var searchNewsResponse: NewsResponse? = null
@@ -33,11 +32,11 @@ class SearchNewsViewModel @Inject constructor(
         hasInternetConnection: Boolean,
         shouldPaginate: Boolean = false
     ) {
-        searchNewsMutable.postValue(Resource.Loading())
+        _searchNewsMutable.postValue(Resource.Loading())
         try {
             if (hasInternetConnection) {
                 viewModelScope.launch(Dispatchers.IO) {
-                    searchNewsMutable.postValue(
+                    _searchNewsMutable.postValue(
                         handleSearchNewsResponse(
                             searchedNewsUseCase.get(searchQuery, searchNewsPage),
                             shouldPaginate
@@ -45,12 +44,12 @@ class SearchNewsViewModel @Inject constructor(
                     )
                 }
             } else {
-                searchNewsMutable.postValue(Resource.LocalError(R.string.error_no_internet_connection))
+                _searchNewsMutable.postValue(Resource.LocalError(R.string.error_no_internet_connection))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> searchNewsMutable.postValue(Resource.LocalError(R.string.error_network_failure))
-                else -> searchNewsMutable.postValue(Resource.LocalError(R.string.conversion_error))
+                is IOException -> _searchNewsMutable.postValue(Resource.LocalError(R.string.error_network_failure))
+                else -> _searchNewsMutable.postValue(Resource.LocalError(R.string.conversion_error))
             }
         }
     }
