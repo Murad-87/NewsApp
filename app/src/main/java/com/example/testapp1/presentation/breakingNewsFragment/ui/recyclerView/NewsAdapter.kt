@@ -2,7 +2,6 @@ package com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -42,13 +41,5 @@ class NewsAdapter :
                 }
             }
         }
-    }
-
-    class DiffCallbackArticles : DiffUtil.ItemCallback<ArticleRemote>() {
-        override fun areItemsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
-            oldItem.url == newItem.url
-
-        override fun areContentsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
-            oldItem == newItem
     }
 }

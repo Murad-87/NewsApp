@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivArticleImage"
         android:layout_width="@dimen/dimens_160_dp"
-        android:layout_height="@dimen/dimens_90_dp"
+        android:layout_height="@dimen/dimens_100_dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package com.example.testapp1.domain
+package com.example.testapp1.domain.repository
 
 import com.example.testapp1.data.remote.model.NewsResponse
 import retrofit2.Response
