@@ -6,25 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".presentation.searchNewsFragment.ui.SearchNewsFragment">
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etSearchRoot"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="14dp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/gray_400"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="Autofill,TextFields" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_edit_text_background"
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            android:padding="0dp"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:id="@+id/search_end_icon_blocker_view"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/etSearchRoot"
+        app:layout_constraintEnd_toEndOf="@id/etSearchRoot"
+        app:layout_constraintTop_toTopOf="@id/etSearchRoot" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchNews"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_0_dp"
         android:clipToPadding="false"
+        android:layout_marginTop="5dp"
         android:paddingBottom="@dimen/dimens_50_dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchRoot"
         tools:layout_editor_absoluteX="@dimen/dimens_0_dp"
         tools:listitem="@layout/item_article_preview"
         tools:visibility="invisible" />

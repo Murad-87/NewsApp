@@ -1,18 +1,17 @@
-package com.example.testapp1.presentation.savedNewsFragment.ui
+package com.example.testapp1.presentation.savedNewsFragment.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.testapp1.data.local.model.ArticleEntity
+import com.example.testapp1.data.local.model.ArticleDbModel
 import com.example.testapp1.databinding.ItemArticlePreviewBinding
 
 class SavedNewsAdapter :
-    ListAdapter<ArticleEntity, SavedNewsAdapter.SavedArticleViewHolder>(DiffCallback()) {
+    ListAdapter<ArticleDbModel, SavedNewsAdapter.SavedArticleViewHolder>(DiffCallback()) {
 
-    private var onItemClickListener: ((ArticleEntity) -> Unit)? = null
+    private var onItemClickListener: ((ArticleDbModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedArticleViewHolder {
         val binding =
@@ -24,13 +23,13 @@ class SavedNewsAdapter :
         holderSaved.bind(getItem(position))
     }
 
-    fun setOnItemClickListener(listener: (ArticleEntity) -> Unit) {
+    fun setOnItemClickListener(listener: (ArticleDbModel) -> Unit) {
         onItemClickListener = listener
     }
 
     inner class SavedArticleViewHolder(private val binding: ItemArticlePreviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(articleEntity: ArticleEntity) {
+        fun bind(articleEntity: ArticleDbModel) {
             with(binding) {
                 Glide.with(binding.root).load(articleEntity.articleInfo.urlToImage)
                     .into(ivArticleImage)
@@ -43,14 +42,5 @@ class SavedNewsAdapter :
                 }
             }
         }
-    }
-
-    class DiffCallback : DiffUtil.ItemCallback<ArticleEntity>() {
-        override fun areItemsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity) =
-            oldItem.title == newItem.title
-
-
-        override fun areContentsTheSame(oldItem: ArticleEntity, newItem: ArticleEntity) =
-            oldItem == newItem
     }
 }

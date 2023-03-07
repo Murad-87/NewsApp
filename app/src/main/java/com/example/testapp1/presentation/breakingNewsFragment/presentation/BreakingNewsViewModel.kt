@@ -18,31 +18,30 @@ class BreakingNewsViewModel @Inject constructor(
     private val breakingNewsUseCase: BreakingNewsUseCase
 ) : ViewModel() {
 
-    private val breakingNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val breakingNews: LiveData<Resource<NewsResponse>>
-        get() = breakingNewsMutable
+    private val _breakingNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    val breakingNewsMutable: LiveData<Resource<NewsResponse>> = _breakingNewsMutable
 
     var breakingNewsPage = 1
     private var breakingNewsResponse: NewsResponse? = null
 
     fun getBreakingNews(countryCode: String, hasInternetConnection: Boolean) {
-        breakingNewsMutable.postValue(Resource.Loading())
+        _breakingNewsMutable.postValue(Resource.Loading())
         try {
             if (hasInternetConnection) {
                 viewModelScope.launch(Dispatchers.IO) {
-                    breakingNewsMutable.postValue(
+                    _breakingNewsMutable.postValue(
                         handleBreakingNewsResponse(
                             breakingNewsUseCase.get(countryCode, breakingNewsPage)
                         )
                     )
                 }
             } else {
-                breakingNewsMutable.postValue(Resource.LocalError(R.string.error_no_internet_connection))
+                _breakingNewsMutable.postValue(Resource.LocalError(R.string.error_no_internet_connection))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> breakingNewsMutable.postValue(Resource.LocalError(R.string.error_network_failure))
-                else -> breakingNewsMutable.postValue(Resource.LocalError(R.string.conversion_error))
+                is IOException -> _breakingNewsMutable.postValue(Resource.LocalError(R.string.error_network_failure))
+                else -> _breakingNewsMutable.postValue(Resource.LocalError(R.string.conversion_error))
             }
         }
     }
