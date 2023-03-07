@@ -7,6 +7,7 @@ import com.example.testapp1.data.local.database.ArticleDatabase
 import com.example.testapp1.data.remote.api.NewsAPI
 import com.example.testapp1.data.repository.NewsRepositoryImpl
 import com.example.testapp1.data.repository.mapper.RemoteToLocalMapper
+import com.example.testapp1.domain.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 
@@ -38,7 +39,7 @@ class DataModule {
         api: NewsAPI,
         dao: ArticleDao,
         mapper: RemoteToLocalMapper
-    ): NewsRepositoryImpl {
+    ): NewsRepository {
         return NewsRepositoryImpl(api, dao, mapper)
     }
 }
