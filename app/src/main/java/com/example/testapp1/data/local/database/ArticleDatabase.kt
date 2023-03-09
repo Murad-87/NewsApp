@@ -9,7 +9,7 @@ import com.example.testapp1.data.local.model.ArticleDbModel
 
 @Database(
     entities = [ArticleDbModel::class],
-    version = 9
+    version = 10
 )
 @TypeConverters(Converters::class)
 abstract class ArticleDatabase : RoomDatabase() {
