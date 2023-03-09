@@ -37,7 +37,7 @@
         android:label="ArticleFragment" >
         <argument
             android:name="selectedNews"
-            app:argType="com.example.testapp1.data.remote.model.ArticleRemote"
+            app:argType="com.example.testapp1.data.remote.model.NewArticleRemote"
             app:nullable="true" />
         <argument
             android:name="selectedSavedNews"

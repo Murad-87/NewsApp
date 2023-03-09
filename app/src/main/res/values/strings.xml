@@ -20,4 +20,6 @@
     <string name="search_news">Search News</string>
     <string name="no_saved_articles_title">Нет сохраненных новостей.</string>
     <string name="no_saved_articles_message">Похоже у вас нет сохраненных новостей. \nПопробуйте сохранить интересные вам новости.</string>
+    <string name="error">Ошибка</string>
+    <string name="empty" translatable="false" />
 </resources>

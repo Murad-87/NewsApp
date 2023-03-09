@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.testapp1.data.remote.model.ArticleRemote
+import com.example.testapp1.data.remote.model.NewArticleRemote
 import com.example.testapp1.databinding.ItemArticlePreviewBinding
 
 class NewsAdapter :
-    ListAdapter<ArticleRemote, NewsAdapter.ArticleViewHolder>(DiffCallbackArticles()) {
+    ListAdapter<NewArticleRemote, NewsAdapter.ArticleViewHolder>(DiffCallbackArticles()) {
 
-    private var onItemClickListener: ((ArticleRemote) -> Unit)? = null
+    private var onItemClickListener: ((NewArticleRemote) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val binding =
@@ -23,21 +23,21 @@ class NewsAdapter :
         holder.bind(getItem(position))
     }
 
-    fun setOnItemClickListener(listener: (ArticleRemote) -> Unit) {
+    fun setOnItemClickListener(listener: (NewArticleRemote) -> Unit) {
         onItemClickListener = listener
     }
 
     inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(articleRemote: ArticleRemote) {
+        fun bind(newArticleRemote: NewArticleRemote) {
             with(binding) {
-                Glide.with(binding.root).load(articleRemote.urlToImage).into(ivArticleImage)
-                tvSource.text = articleRemote.sourceRemote?.name
-                tvTitle.text = articleRemote.title
-                tvDescription.text = articleRemote.description
-                tvPublishedAt.text = articleRemote.publishedAt
+                Glide.with(binding.root).load(newArticleRemote.image_url).into(ivArticleImage)
+                tvSource.text = newArticleRemote.source_id
+                tvTitle.text = newArticleRemote.title
+                tvDescription.text = newArticleRemote.description
+                tvPublishedAt.text = newArticleRemote.pubDate
                 root.setOnClickListener {
-                    onItemClickListener?.let { it(articleRemote) }
+                    onItemClickListener?.let { it(newArticleRemote) }
                 }
             }
         }

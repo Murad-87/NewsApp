@@ -6,19 +6,20 @@ import android.view.View
 import android.widget.AbsListView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp1.NewsApplication
 import com.example.testapp1.R
-import com.example.testapp1.data.remote.model.ArticleRemote
-import com.example.testapp1.data.remote.model.NewsResponse
+import com.example.testapp1.data.remote.model.NewArticleRemote
+import com.example.testapp1.data.remote.model.NewsDataResponse
 import com.example.testapp1.databinding.FragmentBreakingNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.breakingNewsFragment.presentation.BreakingNewsViewModel
 import com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView.NewsAdapter
 import com.example.testapp1.presentation.searchNewsFragment.ui.SearchNewsFragment
 import com.example.testapp1.utils.*
-import com.example.testapp1.utils.BaseClasses.BaseFragment
+import com.example.testapp1.utils.baseClasses.BaseFragment
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import javax.inject.Inject
 
@@ -86,10 +87,10 @@ class BreakingNewsFragment :
         }
     }
 
-    private fun handleSuccess(response: Resource<NewsResponse>) {
+    private fun handleSuccess(response: Resource<NewsDataResponse>) {
         progressBarVisibility(false)
         response.data?.let { newsResponse ->
-            newsAdapter.submitList(newsResponse.articles.toList())
+            newsAdapter.submitList(newsResponse.results.toList())
             val totalPages = newsResponse.totalResults / SearchNewsFragment.QUERY_PAGE_SIZE + 2
             isLastPage = viewModel.breakingNewsPage == totalPages
             if (isLastPage) {
@@ -98,14 +99,14 @@ class BreakingNewsFragment :
         }
     }
 
-    private fun handleError(response: Resource<NewsResponse>) {
+    private fun handleError(response: Resource<NewsDataResponse>) {
         progressBarVisibility(false)
         response.message?.let { message ->
             showToastLL(String.format(getString(R.string.error_message, message)))
         }
     }
 
-    private fun handleLocalError(response: Resource<NewsResponse>) {
+    private fun handleLocalError(response: Resource<NewsDataResponse>) {
         progressBarVisibility(false)
         response.localMessage?.let { message ->
             showToastLS(String.format(getString(R.string.error_message), getText(message)))
@@ -152,7 +153,7 @@ class BreakingNewsFragment :
         }
     }
 
-    private fun navigate(articleRemote: ArticleRemote) {
+    private fun navigate(articleRemote: NewArticleRemote) {
         findNavController().navigate(
             BreakingNewsFragmentDirections
                 .actionBreakingNewsFragmentToArticleFragment(
@@ -167,6 +168,7 @@ class BreakingNewsFragment :
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
     }
 

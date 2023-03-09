@@ -1,12 +1,12 @@
 package com.example.testapp1.presentation.breakingNewsFragment.ui.recyclerView
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.testapp1.data.remote.model.ArticleRemote
+import com.example.testapp1.data.remote.model.NewArticleRemote
 
-class DiffCallbackArticles : DiffUtil.ItemCallback<ArticleRemote>() {
-    override fun areItemsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
-        oldItem.url == newItem.url
+class DiffCallbackArticles : DiffUtil.ItemCallback<NewArticleRemote>() {
+    override fun areItemsTheSame(oldItem: NewArticleRemote, newItem: NewArticleRemote) =
+        oldItem.link == newItem.link
 
-    override fun areContentsTheSame(oldItem: ArticleRemote, newItem: ArticleRemote) =
+    override fun areContentsTheSame(oldItem: NewArticleRemote, newItem: NewArticleRemote) =
         oldItem == newItem
 }

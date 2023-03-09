@@ -5,10 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ArticleInfo(
-    val author: String?,
     val content: String?,
     val description: String?,
-    val publishedAt: String?,
-    val url: String?,
-    val urlToImage: String?
+    val pubDate: String?,
+    val link: String?,
+    val image_url: String?,
+    val source_id: String,
 ): Parcelable

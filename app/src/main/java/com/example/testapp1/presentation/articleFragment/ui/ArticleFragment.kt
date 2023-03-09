@@ -11,7 +11,7 @@ import com.example.testapp1.R
 import com.example.testapp1.databinding.FragmentArticleBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.articleFragment.presentation.ArticleFragmentViewModel
-import com.example.testapp1.utils.BaseClasses.BaseFragment
+import com.example.testapp1.utils.baseClasses.BaseFragment
 import com.example.testapp1.utils.visibilityIf
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -38,10 +38,10 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>(FragmentArticleBind
         viewBinding.webView.apply {
             webViewClient = WebViewClient()
             articleRemote?.let {
-                it.url?.let { loadUrl(articleRemote.url!!) }
+                it.link?.let { loadUrl(articleRemote.link!!) }
             }
             savedArticle?.let {
-                it.articleInfo.url.let { loadUrl(savedArticle.articleInfo.url!!) }
+                it.articleInfo.link.let { loadUrl(savedArticle.articleInfo.link!!) }
             }
         }
 

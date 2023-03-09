@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimens_16_dp"
+        android:textSize="@dimen/dimens_16_sp"
         android:text="@string/source"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
