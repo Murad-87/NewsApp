@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testapp1.R
+import com.example.testapp1.data.remote.model.NewsDataResponse
 import com.example.testapp1.domain.BreakingNewsUseCase
-import com.example.testapp1.data.remote.model.NewsResponse
 import com.example.testapp1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,11 +18,12 @@ class BreakingNewsViewModel @Inject constructor(
     private val breakingNewsUseCase: BreakingNewsUseCase
 ) : ViewModel() {
 
-    private val _breakingNewsMutable: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val breakingNewsMutable: LiveData<Resource<NewsResponse>> = _breakingNewsMutable
+    private val _breakingNewsMutable: MutableLiveData<Resource<NewsDataResponse>> =
+        MutableLiveData()
+    val breakingNewsMutable: LiveData<Resource<NewsDataResponse>> = _breakingNewsMutable
 
     var breakingNewsPage = 1
-    private var breakingNewsResponse: NewsResponse? = null
+    private var breakingNewsResponse: NewsDataResponse? = null
 
     fun getBreakingNews(countryCode: String, hasInternetConnection: Boolean) {
         _breakingNewsMutable.postValue(Resource.Loading())
@@ -31,7 +32,7 @@ class BreakingNewsViewModel @Inject constructor(
                 viewModelScope.launch(Dispatchers.IO) {
                     _breakingNewsMutable.postValue(
                         handleBreakingNewsResponse(
-                            breakingNewsUseCase.get(countryCode, breakingNewsPage)
+                            breakingNewsUseCase.get(countryCode)
                         )
                     )
                 }
@@ -46,15 +47,15 @@ class BreakingNewsViewModel @Inject constructor(
         }
     }
 
-    private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
+    private fun handleBreakingNewsResponse(response: Response<NewsDataResponse>): Resource<NewsDataResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 breakingNewsPage++
                 if (breakingNewsResponse == null) {
                     breakingNewsResponse = resultResponse
                 } else {
-                    val oldArticles = breakingNewsResponse?.articles
-                    val newArticles = resultResponse.articles
+                    val oldArticles = breakingNewsResponse?.results
+                    val newArticles = resultResponse.results
                     oldArticles?.addAll(newArticles)
                 }
                 return Resource.Success(breakingNewsResponse ?: resultResponse)

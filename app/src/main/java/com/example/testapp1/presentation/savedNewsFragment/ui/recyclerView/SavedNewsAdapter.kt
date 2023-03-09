@@ -31,12 +31,11 @@ class SavedNewsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(articleEntity: ArticleDbModel) {
             with(binding) {
-                Glide.with(binding.root).load(articleEntity.articleInfo.urlToImage)
+                Glide.with(binding.root).load(articleEntity.articleInfo.image_url)
                     .into(ivArticleImage)
-                tvSource.text = articleEntity.sourceLocal?.name
                 tvTitle.text = articleEntity.title
                 tvDescription.text = articleEntity.articleInfo.description
-                tvPublishedAt.text = articleEntity.articleInfo.publishedAt
+                tvPublishedAt.text = articleEntity.articleInfo.pubDate
                 root.setOnClickListener {
                     onItemClickListener?.let { it(articleEntity) }
                 }

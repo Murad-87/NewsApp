@@ -1,4 +1,4 @@
-package com.example.testapp1.data.utils
+package com.example.testapp1.utils
 
 interface Mapper<I, O> {
 

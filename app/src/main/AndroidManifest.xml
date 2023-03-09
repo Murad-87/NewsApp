@@ -17,6 +17,7 @@
         android:theme="@style/Theme.TestApp1"
         tools:targetApi="m">
         <activity android:name="com.example.testapp1.presentation.NewsActivity"
+            android:windowSoftInputMode="adjustResize|adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -11,5 +11,6 @@
     <color name="black_for_icon">#000000</color>
     <color name="black_for_text_title">#020303</color>
     <color name="gray_for_text_description">#828282</color>
-    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_400">#939393</color>
+    <color name="dark_gray">#212529</color>
 </resources>

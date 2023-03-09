@@ -1,11 +1,13 @@
 package com.example.testapp1.domain
 
 import com.example.testapp1.data.local.model.ArticleDbModel
-import com.example.testapp1.data.repository.NewsRepositoryImpl
+import com.example.testapp1.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SavedNewsInteractor @Inject constructor(private val repository: NewsRepositoryImpl) {
+class SavedNewsInteractor @Inject constructor(
+    private val repository: NewsRepository
+) {
 
     fun flow(): Flow<List<ArticleDbModel>> = repository.flow()
 

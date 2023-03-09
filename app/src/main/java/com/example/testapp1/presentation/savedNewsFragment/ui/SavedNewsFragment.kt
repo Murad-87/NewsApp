@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import com.example.testapp1.databinding.FragmentSavedNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
 import com.example.testapp1.presentation.savedNewsFragment.ui.recyclerView.SavedNewsAdapter
-import com.example.testapp1.utils.BaseClasses.BaseFragment
+import com.example.testapp1.utils.baseClasses.BaseFragment
 import com.example.testapp1.utils.visibilityIf
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_saved_news.*
@@ -68,7 +69,7 @@ class SavedNewsFragment :
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.absoluteAdapterPosition
                 val article = newsAdapter.currentList[position]
                 viewModel.deleteArticle(article)
                 Snackbar.make(
@@ -104,6 +105,7 @@ class SavedNewsFragment :
         rvSavedNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
     }
 

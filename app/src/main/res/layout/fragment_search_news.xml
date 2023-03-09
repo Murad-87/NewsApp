@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="4dp"
     tools:context=".presentation.searchNewsFragment.ui.SearchNewsFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etSearchRoot"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_margin="14dp"
+        android:layout_marginTop="4dp"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:endIconMode="clear_text"
@@ -45,8 +46,8 @@
         android:id="@+id/rvSearchNews"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_0_dp"
-        android:clipToPadding="false"
         android:layout_marginTop="5dp"
+        android:clipToPadding="false"
         android:paddingBottom="@dimen/dimens_50_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearchRoot"

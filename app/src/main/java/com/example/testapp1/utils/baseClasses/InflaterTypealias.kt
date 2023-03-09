@@ -1,4 +1,4 @@
-package com.example.testapp1.utils.BaseClasses
+package com.example.testapp1.utils.baseClasses
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

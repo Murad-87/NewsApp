@@ -1,12 +1,15 @@
 package com.example.testapp1.domain
 
-import com.example.testapp1.data.remote.model.NewsResponse
-import com.example.testapp1.data.repository.NewsRepositoryImpl
+import com.example.testapp1.data.remote.model.NewsDataResponse
+import com.example.testapp1.domain.repository.NewsRepository
 import retrofit2.Response
 import javax.inject.Inject
 
-class BreakingNewsUseCase @Inject constructor(private val repository: NewsRepositoryImpl) {
-    suspend fun get(countryCode: String, pageNumber: Int) : Response<NewsResponse> {
-        return repository.getBreakingNews(countryCode, pageNumber)
+class BreakingNewsUseCase @Inject constructor(
+    private val repository: NewsRepository
+) {
+
+    suspend fun get(countryCode: String): Response<NewsDataResponse> {
+        return repository.getBreakingNews(countryCode)
     }
 }

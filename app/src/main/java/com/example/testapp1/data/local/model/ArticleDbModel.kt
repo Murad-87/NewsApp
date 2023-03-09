@@ -13,6 +13,4 @@ data class ArticleDbModel(
     val title: String,
     @Embedded
     val articleInfo: ArticleInfo,
-    @Embedded
-    val sourceLocal: SourceLocal?
 ) : Parcelable
