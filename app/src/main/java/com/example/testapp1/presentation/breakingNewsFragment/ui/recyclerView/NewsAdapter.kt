@@ -31,8 +31,8 @@ class NewsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(newArticleRemote: NewArticleRemote) {
             with(binding) {
-                Glide.with(binding.root).load(newArticleRemote.image_url).into(ivArticleImage)
-                tvSource.text = newArticleRemote.source_id
+                Glide.with(binding.root).load(newArticleRemote.imageUrl).into(ivArticleImage)
+                tvSource.text = newArticleRemote.sourceId
                 tvTitle.text = newArticleRemote.title
                 tvDescription.text = newArticleRemote.description
                 tvPublishedAt.text = newArticleRemote.pubDate

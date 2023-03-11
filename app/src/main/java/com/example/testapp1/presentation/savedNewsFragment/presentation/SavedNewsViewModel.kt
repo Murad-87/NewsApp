@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.testapp1.domain.SavedNewsInteractor
-import com.example.testapp1.data.local.model.ArticleDbModel
+import com.example.testapp1.data.local.model.ArticleDtoModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,7 +13,7 @@ class SavedNewsViewModel @Inject constructor(
     private val savedNewsInteractor: SavedNewsInteractor,
 ) : ViewModel() {
 
-    fun reloadArticle(article: ArticleDbModel) {
+    fun reloadArticle(article: ArticleDtoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             savedNewsInteractor.reload(article)
         }
@@ -21,7 +21,7 @@ class SavedNewsViewModel @Inject constructor(
 
     fun getSavedNews() = savedNewsInteractor.flow().asLiveData()
 
-    fun deleteArticle(article: ArticleDbModel) {
+    fun deleteArticle(article: ArticleDtoModel) {
         viewModelScope.launch(Dispatchers.IO) {
             savedNewsInteractor.delete(article)
         }

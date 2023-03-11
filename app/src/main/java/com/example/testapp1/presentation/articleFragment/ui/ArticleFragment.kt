@@ -41,7 +41,7 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>(FragmentArticleBind
                 it.link?.let { loadUrl(articleRemote.link!!) }
             }
             savedArticle?.let {
-                it.articleInfo.link.let { loadUrl(savedArticle.articleInfo.link!!) }
+                it.link.let { loadUrl(savedArticle.link!!) }
             }
         }
 

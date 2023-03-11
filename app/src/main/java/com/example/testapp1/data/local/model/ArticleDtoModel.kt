@@ -1,16 +1,19 @@
 package com.example.testapp1.data.local.model
 
 import android.os.Parcelable
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "ArticlesDbModel")
-data class ArticleDbModel(
+data class ArticleDtoModel(
     @PrimaryKey
     val title: String,
-    @Embedded
-    val articleInfo: ArticleInfo,
+    val content: String?,
+    val description: String?,
+    val pubDate: String?,
+    val link: String?,
+    val imageUrl: String?,
+    val sourceId: String,
 ) : Parcelable

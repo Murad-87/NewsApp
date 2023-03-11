@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.testapp1.R
 import com.example.testapp1.databinding.ActivityNewsBinding
-import kotlinx.android.synthetic.main.activity_news.*
 
 class NewsActivity : AppCompatActivity() {
 
@@ -27,8 +26,6 @@ class NewsActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container_for_fragments) as NavHostFragment
         navController = navHostFragment.findNavController()
-
-        binding.bottomNavigationView.setupWithNavController(navController)
 
         binding.bottomNavigationView.setupWithNavController(navController)
     }

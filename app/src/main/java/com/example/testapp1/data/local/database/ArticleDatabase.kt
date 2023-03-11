@@ -2,14 +2,13 @@ package com.example.testapp1.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.example.testapp1.data.local.dao.ArticleDao
-import com.example.testapp1.data.local.model.ArticleDbModel
+import com.example.testapp1.data.local.model.ArticleDtoModel
 
 @Database(
-    entities = [ArticleDbModel::class],
-    version = 10
+    entities = [ArticleDtoModel::class],
+    version = 11
 )
 @TypeConverters(Converters::class)
 abstract class ArticleDatabase : RoomDatabase() {

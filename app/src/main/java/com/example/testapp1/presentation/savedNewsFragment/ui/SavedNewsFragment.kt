@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp1.NewsApplication
 import com.example.testapp1.R
-import com.example.testapp1.data.local.model.ArticleDbModel
+import com.example.testapp1.data.local.model.ArticleDtoModel
 import com.example.testapp1.databinding.FragmentSavedNewsBinding
 import com.example.testapp1.di.ViewModelFactory
 import com.example.testapp1.presentation.savedNewsFragment.presentation.SavedNewsViewModel
@@ -91,12 +91,12 @@ class SavedNewsFragment :
         }
     }
 
-    private fun navigate(articleDbModel: ArticleDbModel) {
+    private fun navigate(articleDtoModel: ArticleDtoModel) {
         findNavController().navigate(
             SavedNewsFragmentDirections
                 .actionSavedNewsFragmentToArticleFragment(
                     null,
-                    articleDbModel
+                    articleDtoModel
                 )
         )
     }
