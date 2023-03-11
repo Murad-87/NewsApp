@@ -10,7 +10,6 @@ import com.example.testapp1.domain.SearchedNewsUseCase
 import com.example.testapp1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -55,11 +54,11 @@ class SearchNewsViewModel @Inject constructor(
     }
 
     private fun handleSearchNewsResponse(
-        response: Response<NewsDataResponse>,
+        response: NewsDataResponse,
         shouldPaginate: Boolean
     ): Resource<NewsDataResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
+        if (response.status.isNotEmpty()) {
+            response.let { resultResponse ->
                 searchNewsPage++
                 if (searchNewsResponse == null) {
                     searchNewsResponse = resultResponse
@@ -72,6 +71,6 @@ class SearchNewsViewModel @Inject constructor(
                 return Resource.Success(searchNewsResponse ?: resultResponse)
             }
         }
-        return Resource.Error(response.message())
+        return Resource.Error("")
     }
 }

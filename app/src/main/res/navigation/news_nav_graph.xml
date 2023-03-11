@@ -41,7 +41,7 @@
             app:nullable="true" />
         <argument
             android:name="selectedSavedNews"
-            app:argType="com.example.testapp1.data.local.model.ArticleDbModel"
+            app:argType="com.example.testapp1.data.local.model.ArticleDtoModel"
             app:nullable="true" />
         <action
             android:id="@+id/action_articleFragment_to_breakingNewsFragment"

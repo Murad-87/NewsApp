@@ -1,5 +1,6 @@
 package com.example.testapp1.di
 
+import com.example.testapp1.BuildConfig
 import com.example.testapp1.data.remote.api.NewsAPI
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,7 @@ class RemoteModule {
 
     @Provides
     @ApplicationScope
-    fun provideLoggingInterceptor() : HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
     }
 
@@ -31,9 +32,12 @@ class RemoteModule {
 
     @Provides
     @ApplicationScope
-    fun provideRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(
+        gsonConverterFactory: GsonConverterFactory,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(NewsAPI.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()

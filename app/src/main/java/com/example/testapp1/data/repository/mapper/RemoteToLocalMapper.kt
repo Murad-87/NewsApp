@@ -1,24 +1,20 @@
 package com.example.testapp1.data.repository.mapper
 
-import com.example.testapp1.data.local.model.ArticleDbModel
-import com.example.testapp1.data.local.model.ArticleInfo
+import com.example.testapp1.data.local.model.ArticleDtoModel
 import com.example.testapp1.data.remote.model.NewArticleRemote
+import com.example.testapp1.data.utils.Mapper
 import javax.inject.Inject
 
-class RemoteToLocalMapper @Inject constructor() {
-    fun map(articleRemote: NewArticleRemote): ArticleDbModel {
-        with(articleRemote) {
-            return ArticleDbModel(
-                title!!,
-                articleInfo = ArticleInfo(
-                    content,
-                    description,
-                    pubDate,
-                    link,
-                    image_url,
-                    source_id,
-                )
-            )
-        }
-    }
+class RemoteToLocalMapper @Inject constructor() : Mapper<NewArticleRemote, ArticleDtoModel> {
+
+    override fun map(input: NewArticleRemote) : ArticleDtoModel =
+        ArticleDtoModel(
+            title = input.title.orEmpty(),
+            content = input.content,
+            description = input.description,
+            pubDate = input.pubDate,
+            link = input.link,
+            imageUrl = input.imageUrl,
+            sourceId = input.sourceId
+    )
 }

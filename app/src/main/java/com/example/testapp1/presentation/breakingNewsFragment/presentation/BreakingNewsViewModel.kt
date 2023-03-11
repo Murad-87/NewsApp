@@ -10,7 +10,6 @@ import com.example.testapp1.domain.BreakingNewsUseCase
 import com.example.testapp1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -47,9 +46,9 @@ class BreakingNewsViewModel @Inject constructor(
         }
     }
 
-    private fun handleBreakingNewsResponse(response: Response<NewsDataResponse>): Resource<NewsDataResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
+    private fun handleBreakingNewsResponse(response: NewsDataResponse): Resource<NewsDataResponse> {
+        if (response.status.isNotEmpty()) {
+            response.let { resultResponse ->
                 breakingNewsPage++
                 if (breakingNewsResponse == null) {
                     breakingNewsResponse = resultResponse
@@ -61,6 +60,6 @@ class BreakingNewsViewModel @Inject constructor(
                 return Resource.Success(breakingNewsResponse ?: resultResponse)
             }
         }
-        return Resource.Error(response.message())
+        return Resource.Error("")
     }
 }
